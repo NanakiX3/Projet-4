@@ -55,6 +55,23 @@ class Billet{
         }
     }
 
+    public function getLastFiveBillets($connect){
+        $req = $connect->query("SELECT id, titre, content, dateCreation, dateModification, id_user FROM billet ORDER BY dateCreation LIMIT 5");
+        $req->setFetchMode(PDO::FETCH_OBJ);
+        $listLastFiveBillets = array();
+        while ($obj = $req->fetch()){
+            $billet = new Billet();
+            $billet->setId($obj->id);
+            $billet->setTitre($obj->titre);
+            $billet->setContent($obj->content);
+            $billet->setDateCreation($obj->dateCreation);
+            $billet->setDateModification($obj->dateModification);
+            $billet->setUser($obj->id_user);
+            $listLastFiveBillets[] = $billet;
+        }
+        return $listLastFiveBillets;
+    }
+
     //id
     public function getId(){
         return $this->id;
@@ -103,3 +120,6 @@ class Billet{
         $this->user = $user;
     }
 }
+
+?>
+

@@ -15,6 +15,7 @@ if(isset($_GET['action'])){
 
 switch ($action){
     case 'accueil':
+        $listLastFiveBillets = getLastFiveBillets($connect);
         $vue = "view/accueil.php";
     break;
     case 'addBillet':

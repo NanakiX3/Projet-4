@@ -19,6 +19,7 @@ function addBillet($connect){
 function getAllBillets($connect){
     $billet = new Billet();
     $listBillets = $billet->allBillets($connect);
+
     return $listBillets;
 }
 
@@ -27,4 +28,11 @@ function getOneBillet($connect, $id){
     $oneBillet = $billet->getBillet($connect, $id);
 
     return $oneBillet;
+}
+
+function getLastFiveBillets($connect){
+    $billet = new Billet();
+    $listLastFiveBillets = $billet->getLastFiveBillets($connect);
+    
+    return $listLastFiveBillets;
 }
