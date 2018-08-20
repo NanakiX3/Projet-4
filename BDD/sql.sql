@@ -4,13 +4,13 @@
 
 
 #------------------------------------------------------------
-# Table: droit
+# Table: role
 #------------------------------------------------------------
 
-CREATE TABLE droit(
+CREATE TABLE role(
         id    Int  Auto_increment  NOT NULL ,
-        droit Varchar (11) NOT NULL
-	,CONSTRAINT droit_PK PRIMARY KEY (id)
+        role Varchar (11) NOT NULL
+	,CONSTRAINT role_PK PRIMARY KEY (id)
 )ENGINE=InnoDB;
 
 
@@ -20,32 +20,32 @@ CREATE TABLE droit(
 
 CREATE TABLE user(
         id          Int  Auto_increment  NOT NULL ,
-        nom         Varchar (50) NOT NULL ,
-        prenom      Varchar (50) NOT NULL ,
+        lastName         Varchar (50) NOT NULL ,
+        firstName      Varchar (50) NOT NULL ,
         identifiant Varchar (50) NOT NULL ,
         motdepasse  Varchar (50) NOT NULL ,
         mail        Varchar (50) NOT NULL ,
-        id_droit    Int NOT NULL
+        id_role    Int NOT NULL
 	,CONSTRAINT user_PK PRIMARY KEY (id)
 
-	,CONSTRAINT user_droit_FK FOREIGN KEY (id_droit) REFERENCES droit(id)
+	,CONSTRAINT user_role_FK FOREIGN KEY (id_role) REFERENCES role(id)
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: billet
+# Table: Post
 #------------------------------------------------------------
 
-CREATE TABLE billet(
+CREATE TABLE Post(
         id               Int  Auto_increment  NOT NULL ,
-        titre            Varchar (255) NOT NULL ,
+        title            Varchar (255) NOT NULL ,
         content          Longtext NOT NULL ,
-        dateCreation     Datetime NOT NULL ,
-        dateModification Datetime NOT NULL ,
+        created_at     Datetime NOT NULL ,
+        update_at Datetime NOT NULL ,
         id_user          Int NOT NULL
-	,CONSTRAINT billet_PK PRIMARY KEY (id)
+	,CONSTRAINT Post_PK PRIMARY KEY (id)
 
-	,CONSTRAINT billet_user_FK FOREIGN KEY (id_user) REFERENCES user(id)
+	,CONSTRAINT Post_user_FK FOREIGN KEY (id_user) REFERENCES user(id)
 )ENGINE=InnoDB;
 
 
@@ -59,11 +59,11 @@ CREATE TABLE comment(
         dateCommentaire Datetime NOT NULL ,
         idReponse       Int NOT NULL ,
         id_user         Int NOT NULL ,
-        id_billet       Int NOT NULL
+        id_Post       Int NOT NULL
 	,CONSTRAINT comment_PK PRIMARY KEY (id)
 
 	,CONSTRAINT comment_user_FK FOREIGN KEY (id_user) REFERENCES user(id)
-	,CONSTRAINT comment_billet0_FK FOREIGN KEY (id_billet) REFERENCES billet(id)
+	,CONSTRAINT comment_Post0_FK FOREIGN KEY (id_Post) REFERENCES Post(id)
 )ENGINE=InnoDB;
 
 

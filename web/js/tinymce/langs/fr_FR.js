@@ -71,7 +71,7 @@ tinymce.addI18n('fr_FR',{
 "Anchor": "Ancre",
 "Name": "Nom",
 "Id": "Id",
-"Id should start with a letter, followed only by letters, numbers, dashes, dots, colons or underscores.": "L'Id doit commencer par une lettre suivi par des lettres, nombres, tirets, points, deux-points ou underscores",
+"Id should start with a letter, followed only by letters, numbers, dashes, dots, colons or underscores.": "L'Id doit commencer par une lettre suivi par des lettres, lastNamebres, tirets, points, deux-points ou underscores",
 "You have unsaved changes are you sure you want to navigate away?": "Vous avez des modifications non enregistr\u00e9es, \u00eates-vous s\u00fbr de quitter la page?",
 "Restore last draft": "Restaurer le dernier brouillon",
 "Special character": "Caract\u00e8res sp\u00e9ciaux",

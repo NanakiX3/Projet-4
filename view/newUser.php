@@ -1,14 +1,16 @@
-
+<?php
+    if(isset($message)) echo $message;
+?>
 
 <form action="index.php?action=addUser" method="POST">
     <div class="form-group">
-      <label for="nom">Nom</label>
-      <input class="form-control" id="nom" placeholder="Nom" type="text" name="nom">
+      <label for="lastName">Nom</label>
+      <input class="form-control" id="lastName" placeholder="Nom" type="text" name="lastName">
     </div>
 
     <div class="form-group">
-      <label for="prenom">Prénom</label>
-      <input class="form-control" id="prenom" placeholder="Prenom" type="text" name="prenom">
+      <label for="firstName">Prénom</label>
+      <input class="form-control" id="firstName" placeholder="Prénom" type="text" name="firstName">
     </div>
 
     <div class="form-group">
@@ -17,13 +19,13 @@
     </div>
 
     <div class="form-group">
-      <label for="motdepasse">Mot de passe</label>
-      <input class="form-control" id="motdepasse" placeholder="Mot de passe" type="password" name="motdepasse">
+      <label for="password">Mot de passe</label>
+      <input class="form-control" id="password" placeholder="Mot de passe" type="password" name="password">
     </div>
 
     <div class="form-group">
       <label for="mail">Mail</label>
-      <input class="form-control" id="mail" aria-describedby="emailHelp" placeholder="Enter email" type="text">
+      <input class="form-control" id="mail" aria-describedby="emailHelp" placeholder="Enter email" type="text" name="mail">
       <input readonly="" class="form-control-plaintext" id="staticEmail" value="email@example.com" type="text">
     </div>
 

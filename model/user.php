@@ -2,28 +2,55 @@
 
 class User{
     protected $id;
-    protected $nom;
-    protected $prenom;
+    protected $lastName;
+    protected $firstName;
     protected $identifiant;
-    protected $motDePasse;
+    protected $password;
     protected $mail;
-    protected $droit;
+    protected $role;
 
     public function addUser($connect){
         try{
-            $req = $connect->prepare("INSERT INTO user (nom, prenom, identifiant, motDePasse, mail, droit) VALUES (:nom, :prenom, :identifiant, SHA1(:motDePasse), :mail, :droit)");
-            $req->bindParam(":nom", $this->nom, PDO::PARAM_STR);
-            $req->bindParam(":prenom", $this->prenom, PDO::PARAM_STR);
+            $req = $connect->prepare("INSERT INTO user (lastName, firstName, identifiant, password, mail, id_role) VALUES (:lastName, :firstName, :identifiant, SHA1(:password), :mail, 1)");
+            $req->bindParam(":lastName", $this->lastName, PDO::PARAM_STR);
+            $req->bindParam(":firstName", $this->firstName, PDO::PARAM_STR);
             $req->bindParam(":identifiant", $this->identifiant, PDO::PARAM_STR);
-            $req->bindParam(":motDePasse", $this->motDePasse, PDO::PARAM_STR);
+            $req->bindParam(":password", $this->password, PDO::PARAM_STR);
             $req->bindParam(":mail", $this->mail, PDO::PARAM_STR);
-            $req->bindParam(":droit", $this->droit, PDO::PARAM_INT);
             $req->execute();
             $message = "Vous êtes bien inscrit sur les nouvelles de Jean FORTEROCHE!";
             return $message;
         }catch(PDOException $e){
             return "Votre inscription a échoué, en voici la raison : ".$e->getMessage();
         }
+    }
+
+    public function getUser($connect, $identifiant, $password){
+        $req = $connect->prepare("SELECT id, lastName, firstName, identifiant, password, mail, id_role FROM user WHERE identifiant = :identifiant AND password = :password");
+        $password = SHA1($password);
+        
+        $req->bindParam(":identifiant", $identifiant, PDO::PARAM_STR);
+        $req->bindParam(":password", $password, PDO::PARAM_STR);
+        $req->execute();
+        $req->setFetchMode(PDO::FETCH_OBJ);
+        $obj = $req->fetch();
+        if(empty($obj)){
+            return null;
+        }else{
+            $user = new User();
+            $user->setId($obj->id);
+            $user->setLastName($obj->lastName);
+            $user->setFirstName($obj->firstName);
+            $user->setIdentifiant($obj->identifiant);
+            $user->setPassword($obj->password);
+            $user->setMail($obj->mail);
+            $role = new Role();
+            $userRole = $role->getRoleById($connect, $obj->id_role);
+            $user->setRole($userRole->getRole());
+
+            return $user;
+        }
+        
     }
 
     //id
@@ -34,20 +61,20 @@ class User{
         $this->id = $id;
     }
 
-    //nom
-    public function getNom(){
-        return $this->nom;
+    //lastName
+    public function getLastName(){
+        return $this->lastName;
     }
-    public function setNom($nom){
-        $this->nom = $nom;
+    public function setLastName($lastName){
+        $this->lastName = $lastName;
     }
 
-    //prenom
-    public function getPrenom(){
-        return $this->prenom;
+    //firstName
+    public function getFirstName(){
+        return $this->firstName;
     }
-    public function setPrenom($prenom){
-        $this->prenom = $prenom;
+    public function setFirstName($firstName){
+        $this->firstName = $firstName;
     }
 
     //identifiant
@@ -59,11 +86,11 @@ class User{
     }
 
     //mot de passe
-    public function getMotDePasse(){
-        return $this->motDePasse;
+    public function getPassword(){
+        return $this->password;
     }
-    public function setMotDePasse($motDePasse){
-        $this->motDePasse = $motDePasse;
+    public function setPassword($password){
+        $this->password = $password;
     }
 
     //mail
@@ -74,12 +101,12 @@ class User{
         $this->mail = $mail;
     }
 
-    //droit
-    public function getDroit(){
-        return $this->droit;
+    //role
+    public function getRole(){
+        return $this->role;
     }
-    public function setDroit($droit){
-        $this->droit = $droit;
+    public function setRole($role){
+        $this->role = $role;
     }
 
 }

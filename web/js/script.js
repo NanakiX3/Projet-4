@@ -32,13 +32,14 @@ $(document).ready(function(){
 
           var canvas = document.querySelector('.snow'),
           ctx = canvas.getContext('2d'),
-          windowW = window.innerWidth,
-          windowH = window.innerHeight,
+          element = document.getElementById('header'),
+          windowW = element.offsetWidth,
+          windowH = element.offsetHeight,
           numFlakes = 200,
           flakes = [];
-
+      console.log(windowW);
       function Flake(x, y) {
-        var maxWeight = 5,
+        var maxWeight = 2,
             maxSpeed = 3;
         
         this.x = x;
@@ -48,7 +49,7 @@ $(document).ready(function(){
         this.aStep = 0.01;
 
         
-        this.weight = randomBetween(2, maxWeight);
+        this.weight = randomBetween(1, maxWeight);
         this.alpha = (this.weight / maxWeight);
         this.speed = (this.weight / maxWeight) * maxSpeed;
         

@@ -1,13 +1,18 @@
+/*Global*/
 body{
     margin-bottom: 60px;
     width: 100%;
     overflow-x: hidden;
-    background-image: url("../images/alaska1.jpg");
-    background-repeat: no-repeat;
+    
 }
 
 body > .container {
-    padding: 115px 0px 15px 0px;
+    padding: 115px 10px 15px 10px;
+}
+
+.navbar-brand{
+    width: 250px;
+    text-align: center;
 }
 
 footer{
@@ -18,3 +23,30 @@ footer{
     line-height: 60px;
     background-color: #fff;
 }
+
+/*Accueil*/
+.jumbotron{
+    background-image: url("../images/alaska1.jpg");
+    background-repeat: no-repeat;
+    height: 350px;
+    padding: 0;
+    position: relative;
+}
+
+.header-content{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+
+}
+
+.bg-post{
+    background-image: url("../images/himalaya.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+}
+
+/*responsive*/

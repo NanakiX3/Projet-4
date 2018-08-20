@@ -3,36 +3,36 @@
 
 
 //models
-include_once("./model/billet.php");
+include_once("./model/Post.php");
 
 
 
-function addBillet($connect){
-    $billet = new Billet();
-    $billet->setTitre($_POST["titre"]);
-    $billet->setContent($_POST["content"]);
+function addPost($connect){
+    $post = new Post();
+    $post->setTitle($_POST["title"]);
+    $post->setContent($_POST["content"]);
 
-    $message = $billet->insertBillet($connect);
+    $message = $post->insertPost($connect);
     return $message;
 }
 
-function getAllBillets($connect){
-    $billet = new Billet();
-    $listBillets = $billet->allBillets($connect);
+function getAllPosts($connect){
+    $post = new Post();
+    $listPosts = $post->allPosts($connect);
 
-    return $listBillets;
+    return $listPosts;
 }
 
-function getOneBillet($connect, $id){
-    $billet = new Billet();
-    $oneBillet = $billet->getBillet($connect, $id);
+function getOnePost($connect, $id){
+    $post = new Post();
+    $onePost = $post->getPost($connect, $id);
 
-    return $oneBillet;
+    return $onePost;
 }
 
-function getLastFiveBillets($connect){
-    $billet = new Billet();
-    $listLastFiveBillets = $billet->getLastFiveBillets($connect);
+function getLastFivePosts($connect){
+    $post = new Post();
+    $listLastFivePosts = $post->getLastFivePosts($connect);
     
-    return $listLastFiveBillets;
+    return $listLastFivePosts;
 }

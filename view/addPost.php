@@ -1,11 +1,11 @@
-<h1><?php echo $billet->getTitre();?></h1>
+<?php
+    if(isset($message)) echo $message;
+?>
 
-<?php echo $billet->getContent(); ?>
-
-<form action="index.php?action=addCommentBillet" method="POST">
+<form action="index.php?action=addPostBdd" method="POST">
     <div class="form-group">
-      <label for="titre">Titre</label>
-      <input class="form-control" id="titre" placeholder="Titre" type="text" name="titre">
+      <label for="title">Title</label>
+      <input class="form-control" id="title" placeholder="Title" type="text" name="title">
     </div>
 
     <div class="form-group">
