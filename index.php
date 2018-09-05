@@ -3,8 +3,9 @@
 //includes
 include_once("./lib/bddConnect.php");
 $connect = bddConnect::getMySqlConnection();
-include_once("controller/controller.php");
+include_once("controller/PostController.php");
 include_once("controller/UserController.php");
+include_once("controller/CommentController.php");
 
 session_start();
 
@@ -26,6 +27,10 @@ switch ($action){
     case 'signUp':
         $vue = "view/newUser.php";
     break;
+    case 'Dashbord':
+        header('location:dashboard/index.php');
+        exit;
+    break;
     case 'addUser':
     //conditions si pas nom 
         // si pas prénom ...
@@ -39,14 +44,9 @@ switch ($action){
             $message = "La combinaison identifiant et mot de passe est incorrect";
             $vue = "view/login.php";
         }else{
-            $_SESSION["id"] = $userLogin->getId();
-            $_SESSION["lastName"] = $userLogin->getLastName();
-            $_SESSION["firstName"] = $userLogin->getFirstName();
-            $_SESSION["identifiant"] = $userLogin->getIdentifiant();
-            $_SESSION["password"] = $userLogin->getPassword();
-            $_SESSION["mail"] = $userLogin->getMail();
-            $_SESSION["role"] = $userLogin->getRole();
-            if($_SESSION['role'] == 'admin'){
+            $_SESSION["user"] = $userLogin;
+           
+            if($_SESSION['user']->getRole() == 'admin'){
                 header('location:dashboard/index.php');
                 exit;
             }else{
@@ -57,6 +57,16 @@ switch ($action){
         }
     break;
     case 'logOut':
+        $_SESSION = array();
+
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }       
+    
         session_destroy();
         $listLastFivePosts = getLastFivePosts($connect);
         $vue = "view/accueil.php";
@@ -80,6 +90,7 @@ switch ($action){
     case 'post':
         if(isset($_GET['id'])){
             $post = getOnePost($connect, $_GET['id']);
+            $listComments = getCommentsByPost($connect, $_GET['id']);
             $vue = "view/post.php";
         }else{
             $vue = "view/error404.php";
@@ -89,7 +100,22 @@ switch ($action){
         $post = getOnePost($connect, $_GET['id']);
         $vue = "view/editPost.php";
     break;
-
+    case 'addComment':
+        if(isset($_POST['comment']) && !empty($_POST['comment'])){
+            $message = addComment($connect);
+        }else{
+            $message = "Veuillez mettre du texte dans votre commentaire !";
+        }
+        $post = getOnePost($connect, $_POST['idPost']);
+        $listComments = getCommentsByPost($connect, $_POST['idPost']);
+        $vue = "view/post.php";
+    break;
+    case 'deleteComment':
+        $message = deleteComment($connect, $_GET['idComment']);
+        $post = getOnePost($connect, $_GET['idPost']);
+        $listComments = getCommentsByPost($connect, $_GET['idPost']);
+        $vue ="view/post.php";
+    break;
     default: 
     $listLastFivePosts = getLastFivePosts($connect);
         $vue = 'view/accueil.php';

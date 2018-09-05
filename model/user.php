@@ -53,6 +53,30 @@ class User{
         
     }
 
+    public function getUserById($connect, $id){
+        $req = $connect->prepare("SELECT id, lastName, firstName, identifiant, mail, id_role FROM user WHERE id = " . $id);
+        
+        $req->execute();
+        $req->setFetchMode(PDO::FETCH_OBJ);
+        $obj = $req->fetch();
+        if(empty($obj)){
+            return null;
+        }else{
+            $user = new User();
+            $user->setId($obj->id);
+            $user->setLastName($obj->lastName);
+            $user->setFirstName($obj->firstName);
+            $user->setIdentifiant($obj->identifiant);
+            $user->setMail($obj->mail);
+            $role = new Role();
+            $userRole = $role->getRoleById($connect, $obj->id_role);
+            $user->setRole($userRole->getRole());
+
+            return $user;
+        }
+        
+    }
+
     //id
     public function getId(){
         return $this->id;

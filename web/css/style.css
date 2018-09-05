@@ -15,7 +15,7 @@ body > .container {
     text-align: center;
 }
 
-footer{
+.footer{
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -24,9 +24,15 @@ footer{
     background-color: #fff;
 }
 
+h3{
+    position: relative;
+    transform: translateX(-50%);
+    left:50%;
+}
+
 /*Accueil*/
 .jumbotron{
-    background-image: url("../images/alaska1.jpg");
+    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("../images/alaska1.jpg");
     background-repeat: no-repeat;
     height: 350px;
     padding: 0;

@@ -11,7 +11,6 @@ function verifLogin($connect){
 
 function addUser($connect){
     $user = new User();
-    $user->setId($_POST['id']);
     $user->setLastName($_POST['lastName']);
     $user->setFirstName($_POST['firstName']);
     $user->setIdentifiant($_POST['identifiant']);
@@ -21,3 +20,4 @@ function addUser($connect){
     $message = $user->addUser($connect);
     return $message;
 }
+
