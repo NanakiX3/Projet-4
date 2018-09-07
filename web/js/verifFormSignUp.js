@@ -2,11 +2,11 @@ function verifMail(champ){
     var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
     if(!regex.test(champ.value)){
         surligne(champ, true);
-        $("#email").attr("title", "Veuillez renseigner un e-mail valide");
+        $("#mail").attr("title", "Veuillez renseigner un e-mail valide");
         return false;
     }else{
         surligne(champ,false);
-        $("#email").attr("title", "");
+        $("#mail").attr("title", "");
         return true;
     }
 };
@@ -14,11 +14,11 @@ function verifMail(champ){
 //entoure en rouge l'input si erreur sinon vert
 function surligne(champ, erreur){
     if(erreur){
-        champ.parentElement.classList.add("has-error");
+        champ.classList.add("is-invalid");
     }
     else{
-        champ.parentElement.classList.remove("has-error");
-        champ.parentElement.classList.add("has-success");
+        champ.classList.remove("is-invalid");
+        champ.classList.add("is-valid");
     }
 };
 
