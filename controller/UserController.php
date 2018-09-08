@@ -3,13 +3,20 @@
 include_once("./model/Role.php");
 include_once("./model/User.php");
 
-function verifLogin($connect){
+function verifLogin(){
     $user = new User();
-    $userLogin = $user->getUser($connect, $_POST["identifiant"], $_POST["password"]);
+    $userLogin = $user->getUser($_POST["identifiant"], $_POST["password"]);
     return $userLogin;
 }
 
-function addUser($connect){
+function verifLoginById($id){
+    $user = new User();
+    $userLogin = $user->getUserById($id);
+    return $userLogin;
+}
+
+
+function addUser(){
     $user = new User();
     $user->setLastName($_POST['lastName']);
     $user->setFirstName($_POST['firstName']);
@@ -17,7 +24,7 @@ function addUser($connect){
     $user->setPassword($_POST['password']);
     $user->setMail($_POST['mail']);
 
-    $message = $user->addUser($connect);
+    $message = $user->addUser();
     return $message;
 }
 

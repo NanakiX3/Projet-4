@@ -1,6 +1,8 @@
 <?php
 
 class Post{
+
+    private $connect;
     protected $id;              
     protected $title;          
     protected $content;         
@@ -8,8 +10,14 @@ class Post{
     protected $update_at;
     protected $user;
 
-    public function allPosts($connect){
-        $req = $connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc ");
+    public function __construct()
+    {
+        $db = BddConnect::getInstance();
+        $this->connect = $db->getDbh();
+    }
+
+    public function allPosts(){
+        $req = $this->connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc ");
         $req->setFetchMode(PDO::FETCH_OBJ);
         $listPosts = array();
         while ($obj = $req->fetch()){
@@ -25,8 +33,8 @@ class Post{
         return $listPosts;
     }
 
-    public function getPost($connect, $id){
-        $req = $connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post WHERE id = ".$id);
+    public function getPost($id){
+        $req = $this->connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post WHERE id = ".$id);
         $req->setFetchMode(PDO::FETCH_OBJ);
 
         $post = new Post();
@@ -42,9 +50,9 @@ class Post{
         return $post;
     }
 
-    public function insertPost($connect){
+    public function insertPost(){
         try{
-            $req = $connect->prepare("INSERT INTO post (title, content, created_at, id_user) VALUES (:title, :content, NOW(), 1)");
+            $req = $this->connect->prepare("INSERT INTO post (title, content, created_at, id_user) VALUES (:title, :content, NOW(), 1)");
             $req->bindParam(":title", $this->title, PDO::PARAM_STR);
             $req->bindParam(":content", $this->content, PDO::PARAM_STR);
             $req->execute();
@@ -55,8 +63,21 @@ class Post{
         }
     }
 
-    public function getLastFivePosts($connect){
-        $req = $connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc LIMIT 5");
+    public function updatePost($id){
+        try{
+            $req = $this->connect->prepare("UPDATE post SET title = :title, content = :content, update_at = NOW() WHERE id = " .$id);
+            $req->bindParam(":title", $this->title, PDO::PARAM_STR);
+            $req->bindParam(":content", $this->content, PDO::PARAM_STR);
+            $req->execute();
+            $message = "Votre billet a bien été mise à jour !";
+            return $message;
+        }catch(PDOException $e){
+            return "Votre enregistrement a échoué, en voici la raison : ".$e->getMessage();
+        }
+    }
+
+    public function getLastFivePosts(){
+        $req = $this->connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc LIMIT 5");
         $req->setFetchMode(PDO::FETCH_OBJ);
         $listLastFivePosts = array();
         while ($obj = $req->fetch()){

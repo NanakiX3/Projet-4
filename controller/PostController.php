@@ -6,33 +6,23 @@
 include_once("./model/Post.php");
 
 
-
-function addPost($connect){
+function getAllPosts(){
     $post = new Post();
-    $post->setTitle($_POST["title"]);
-    $post->setContent($_POST["content"]);
-
-    $message = $post->insertPost($connect);
-    return $message;
-}
-
-function getAllPosts($connect){
-    $post = new Post();
-    $listPosts = $post->allPosts($connect);
+    $listPosts = $post->allPosts();
 
     return $listPosts;
 }
 
-function getOnePost($connect, $id){
+function getOnePost($id){
     $post = new Post();
-    $onePost = $post->getPost($connect, $id);
+    $onePost = $post->getPost($id);
 
     return $onePost;
 }
 
-function getLastFivePosts($connect){
+function getLastFivePosts(){
     $post = new Post();
-    $listLastFivePosts = $post->getLastFivePosts($connect);
+    $listLastFivePosts = $post->getLastFivePosts();
     
     return $listLastFivePosts;
 }

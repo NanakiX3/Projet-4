@@ -25,13 +25,17 @@
     <div class="row">
       <!-- liste commentaires -->
       <h3 class="text-white">Commentaires des lecteurs</h3>
-      <div class="col-12">
+      <div class="col-12 pl-0">
         <hr class="border-white" style="border-width:3px;">
       </div>
-      <?php
-          if(isset($message)) echo $message;
-      ?>
+      <div class="alert alert-dismissible alert-secondary">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php
+            if(isset($message)) echo $message;
+        ?>
+      </div>
       <?php 
+        if(empty($listComment)) echo "Aucun commentaire";
         foreach($listComments as $comment){?>
           <div class="col-12 py-3">
             <blockquote class="blockquote">
@@ -40,10 +44,10 @@
               <?php echo $comment->getUser()->getRole() == "admin" ? $comment->getUser()->getFirstName()." ".$comment->getUser()->getLastName() : $comment->getUser()->getIdentifiant(); ?>
               <cite title="Source Title"><?php echo date("d-m-Y H:i", strtotime($comment->getDateComment())); ?></cite></footer>
             </blockquote>
-            <?php if(isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "lecteur"){?>
+            <?php if(isset($_SESSION["user"]) && verifLoginById($_SESSION["user"])->getRole() == "lecteur"){?>
               <a href="" class="badge badge-pill badge-danger">Signaler</a>
             <?php } ?>
-            <?php if(isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin"){?>
+            <?php if(isset($_SESSION["user"]) && verifLoginById($_SESSION["user"])->getRole() == "admin"){?>
               <a href="index.php?action=deleteComment&idComment=<?php echo $comment->getId(); ?>&idPost=<?php echo $post->getId() ?>" class="badge badge-pill badge-danger">Supprimer</a>
             <?php } ?>
           </div>

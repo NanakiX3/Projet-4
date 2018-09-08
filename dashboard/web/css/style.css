@@ -25,7 +25,7 @@
 .wrapper-content{
     min-height: calc(100vh - 87px - 60px);
     margin-left: 300px;
-    margin-top: 67px;
+    margin-top: 87px;
     margin-bottom: 60px;
     padding: 1rem;
     padding-bottom: 1.5rem;
@@ -75,6 +75,10 @@
     .wrapper-content{
         margin-left: 0px;
         padding: 7px;
+    }
+
+    .footer{
+        margin-left: 0;
     }
     
 

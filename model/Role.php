@@ -1,12 +1,20 @@
 <?php
 
 class Role{
+    private $connect;
     protected $id;
     protected $role;
 
+    public function __construct()
+    {
+        $db = BddConnect::getInstance();
+        $this->connect = $db->getDbh();
+    }
 
-    public function getRoleById($connect, $id){
-        $req = $connect->query("SELECT id, role FROM role WHERE id = ".$id);
+
+
+    public function getRoleById($id){
+        $req = $this->connect->query("SELECT id, role FROM role WHERE id = ".$id);
         $req->setFetchMode(PDO::FETCH_OBJ);
 
         $role = new Role();

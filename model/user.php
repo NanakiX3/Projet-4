@@ -1,6 +1,7 @@
 <?php
 
 class User{
+    private $connect;
     protected $id;
     protected $lastName;
     protected $firstName;
@@ -9,9 +10,16 @@ class User{
     protected $mail;
     protected $role;
 
-    public function addUser($connect){
+    public function __construct()
+    {
+        $db = BddConnect::getInstance();
+        $this->connect = $db->getDbh();
+    }
+
+
+    public function addUser(){
         try{
-            $req = $connect->prepare("INSERT INTO user (lastName, firstName, identifiant, password, mail, id_role) VALUES (:lastName, :firstName, :identifiant, SHA1(:password), :mail, 1)");
+            $req = $this->connect->prepare("INSERT INTO user (lastName, firstName, identifiant, password, mail, id_role) VALUES (:lastName, :firstName, :identifiant, SHA1(:password), :mail, 1)");
             $req->bindParam(":lastName", $this->lastName, PDO::PARAM_STR);
             $req->bindParam(":firstName", $this->firstName, PDO::PARAM_STR);
             $req->bindParam(":identifiant", $this->identifiant, PDO::PARAM_STR);
@@ -25,8 +33,8 @@ class User{
         }
     }
 
-    public function getUser($connect, $identifiant, $password){
-        $req = $connect->prepare("SELECT id, lastName, firstName, identifiant, password, mail, id_role FROM user WHERE identifiant = :identifiant AND password = :password");
+    public function getUser($identifiant, $password){
+        $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, password, mail, id_role FROM user WHERE identifiant = :identifiant AND password = :password");
         $password = SHA1($password);
         
         $req->bindParam(":identifiant", $identifiant, PDO::PARAM_STR);
@@ -45,7 +53,7 @@ class User{
             $user->setPassword($obj->password);
             $user->setMail($obj->mail);
             $role = new Role();
-            $userRole = $role->getRoleById($connect, $obj->id_role);
+            $userRole = $role->getRoleById($obj->id_role);
             $user->setRole($userRole->getRole());
 
             return $user;
@@ -53,8 +61,9 @@ class User{
         
     }
 
-    public function getUserById($connect, $id){
-        $req = $connect->prepare("SELECT id, lastName, firstName, identifiant, mail, id_role FROM user WHERE id = " . $id);
+
+    public function getUserById($id){
+        $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, mail, id_role FROM user WHERE id = " . $id);
         
         $req->execute();
         $req->setFetchMode(PDO::FETCH_OBJ);
@@ -69,7 +78,7 @@ class User{
             $user->setIdentifiant($obj->identifiant);
             $user->setMail($obj->mail);
             $role = new Role();
-            $userRole = $role->getRoleById($connect, $obj->id_role);
+            $userRole = $role->getRoleById($obj->id_role);
             $user->setRole($userRole->getRole());
 
             return $user;

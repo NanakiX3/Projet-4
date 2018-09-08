@@ -3,14 +3,17 @@
   <div class="row">
     <div class="col-12">
 
-      <?php
-          if(isset($message)) echo $message;
-      ?>
+      <div class="alert alert-dismissible alert-secondary">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php
+            if(isset($message)) echo $message;
+        ?>
+      </div>
 
       <form action="index.php?action=addPostBdd" method="POST">
           <div class="form-group">
-            <label for="title">Title</label>
-            <input class="form-control" id="title" placeholder="Title" type="text" name="title">
+            <label for="title">Titre</label>
+            <input class="form-control" id="title" placeholder="Titre" type="text" name="title">
           </div>
 
           <div class="form-group">

@@ -1,16 +1,23 @@
 <?php
 
 class Comment{
+    private $connect;
     protected $id;
     protected $content;
     protected $dateComment;
     protected $answer;
     protected $user;
     protected $post;
+
+    public function __construct()
+    {
+        $db = BddConnect::getInstance();
+        $this->connect = $db->getDbh();
+    }
    
-    public function addComment($connect){
+    public function addComment(){
         try{
-            $req = $connect->prepare("INSERT INTO comment (content, dateComment, id_user, id_post) VALUES (:content, NOW(), :user, :post)");
+            $req = $this->connect->prepare("INSERT INTO comment (content, dateComment, id_user, id_post) VALUES (:content, NOW(), :user, :post)");
             $req->bindParam(":content", $this->content, PDO::PARAM_STR);
             $req->bindParam(":user", $this->user, PDO::PARAM_INT);
             $req->bindParam(":post", $this->post, PDO::PARAM_INT);
@@ -22,8 +29,8 @@ class Comment{
         }
     }
 
-    public function getCommentsByPost($connect, $idPost){
-        $req = $connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id_post = ".$idPost." ORDER BY dateComment asc ");
+    public function getCommentsByPost($idPost){
+        $req = $this->connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id_post = ".$idPost." ORDER BY dateComment asc ");
         $req->setFetchMode(PDO::FETCH_OBJ);
         $listComments = array();
         while ($obj = $req->fetch()){
@@ -32,25 +39,33 @@ class Comment{
             $comment->setContent($obj->content);
             $comment->setDateComment($obj->dateComment);
             $user = new User();
-            $comment->setUser($user->getUserById($connect, $obj->id_user));
+            $comment->setUser($user->getUserById($obj->id_user));
             $post = new Post();
-            $comment->setPost($post->getPost($connect, $obj->id_post));
+            $comment->setPost($post->getPost($obj->id_post));
             $listComments[] = $comment;
         }
         return $listComments;
     }
 
-    public function deleteComment($connect, $id){
-    try{
-        $req = $connect->prepare("DELETE FROM comment WHERE id = ".$id);
-        $req->execute();
-        $message = "Ce commentaire a bien été supprimé !";
-        return $message;
-    }catch(PDOException $e){
-        return "Ce commentaire n'a pas été supprimé, en voici la raison : ".$e->getMessage();
-    }
+    public function deleteComment($id){
+        try{
+            $req = $this->connect->prepare("DELETE FROM comment WHERE id = ".$id);
+            $req->execute();
+            $message = "Ce commentaire a bien été supprimé !";
+            return $message;
+        }catch(PDOException $e){
+            return "Ce commentaire n'a pas été supprimé, en voici la raison : ".$e->getMessage();
+        }
         
     }
+
+    public function getCountCommentByPostId($id){
+        $req = $this->connect->prepare("SELECT COUNT(id) FROM comment WHERE id_post = ".$id);
+        $req->execute();
+        $nbComment = $req->fetch(); 
+        return $nbComment;
+    }
+
 
     public function getId(){
         return $this->id;

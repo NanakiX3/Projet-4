@@ -1,10 +1,17 @@
 <?php
 
 class Report{
+    private $connect;
     protected $comment;
     protected $user;
     protected $message;
     protected $reportingDate;
+
+    public function __construct()
+    {
+        $db = BddConnect::getInstance();
+        $this->connect = $db->getDbh();
+    }
 
 
     public function getComment(){

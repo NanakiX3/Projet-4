@@ -1,7 +1,7 @@
 <div class="container">
     <?php
         if(isset($_SESSION["user"])){
-            echo "Bienvenue ".$_SESSION["user"]->getFirstName()." ".$_SESSION["user"]->getLastName();
+            echo "Bienvenue ".verifLoginById($_SESSION["user"])->getFirstName()." ".verifLoginById($_SESSION["user"])->getLastName();
         
         }
     ?>
