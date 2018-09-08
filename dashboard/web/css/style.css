@@ -8,7 +8,7 @@
 #sidebar-left{
     position: fixed;
     left: 0;
-    top: 56px;
+    top: 87px;
     bottom: 0;
     width: 300px;
     overflow: auto;
@@ -23,9 +23,9 @@
 }
 
 .wrapper-content{
-    min-height: calc(100vh - 56px - 60px);
+    min-height: calc(100vh - 87px - 60px);
     margin-left: 300px;
-    margin-top: 32px;
+    margin-top: 67px;
     margin-bottom: 60px;
     padding: 1rem;
     padding-bottom: 1.5rem;
@@ -55,6 +55,8 @@
     height: 60px;
     line-height: 60px;
     background-color: #fff;
+    margin-left: 300px;
+    text-align: center;
 }
 
 @media(max-width: 992px){
