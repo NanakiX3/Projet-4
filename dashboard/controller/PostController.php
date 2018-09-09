@@ -25,6 +25,11 @@ function updatePost($id){
     return $message;
 }
 
+function deletePost($id){
+    $post = new Post();
+    $message = $post->deletePost($id);
+    return $message;
+}
 
 function getAllPosts(){
     $post = new Post();
@@ -40,8 +45,8 @@ function getOnePost($id){
     return $onePost;
 }
 
-function getCountCommentByPost($id){
-    $comment = new Comment();
-    $nbComment = $comment->getCountCommentByPostId($id);
-    return $nbComment;
+function getCountPost(){
+    $post = new Post();
+    $nbPost = $post->getCountPost();
+    return $nbPost;
 }

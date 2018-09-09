@@ -7,6 +7,7 @@ include("../model/BddConnect.php");
 include_once("controller/PostController.php");
 include_once("controller/UserController.php");
 include_once("controller/CommentController.php");
+include_once("controller/ReportController.php");
 
 $userLogin = verifLogin($_SESSION['user']);
 
@@ -39,8 +40,9 @@ if($userLogin->getRole() == 'lecteur'){
             }       
         
             session_destroy();
-            $listLastFivePosts = getLastFivePosts();
-            $vue = "view/accueil.php";
+           
+            header('location:../index.php');
+            exit();
         break;
         case 'addPost':
             $vue = "view/addPost.php";
@@ -81,13 +83,35 @@ if($userLogin->getRole() == 'lecteur'){
             $post = getOnePost($_GET['id']);
             $vue = "view/editPost.php";
         break;
-       
-        case 'deleteComment':
-            $message = deleteComment($_GET['idComment']);
-            $post = getOnePost($_GET['idPost']);
-            $listComments = getCommentsByPost($_GET['idPost']);
-            $vue ="view/post.php";
+        case 'deletePost':
+            $message = deletePost($_GET['id']);
+            $listPosts = getAllPosts();
+            $vue = "view/allPosts.php";
         break;
+        case 'allComments':
+            $listComments = allComments();
+            $vue = "view/allComments.php";
+        break;
+        case 'deleteComment':
+            $message = deleteComment($_GET['id']);
+            $listComments = allComments();
+            $vue = "view/allComments.php";
+        break;
+        case 'allCommentsReported':
+            $listCommentsReported = allCommentsReported();
+            $vue = "view/allCommentsReported.php";
+        break;
+        case 'viewReport':
+            $comment = getCommentById($_GET["id"]);
+            $listReport = getReportByIdComment($_GET['id']);
+            $vue = "view/viewReport.php";
+        break;
+        case 'deleteReport':
+            $message = deleteAllReport($_GET["id"]);
+            $listCommentsReported = allCommentsReported();
+            $vue = "view/allCommentsReported.php";
+        break;
+
         default:
        
             $vue = 'view/accueil.php';

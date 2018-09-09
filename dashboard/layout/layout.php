@@ -25,23 +25,23 @@
 				<div class="collapse navbar-collapse navbar-dark " id="sidebar-left">
 					
 					<ul class="navbar-nav  navbar-sidenav bg-dark" id="sidebar-content">
-						<li class="nav-item active">
-							<a class="nav-link" href="index.php?action=accueil">Accueil<span class="sr-only">(current)</span></a>
+						<li class="nav-item <?php if($action == "accueil") echo 'item-active'?>">
+							<a class="nav-link" href="index.php?action=accueil">Accueil</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item <?php if($action == "addPost") echo 'item-active'?>">
 							<a class="nav-link" href="index.php?action=addPost">Publier</a>
 						</li>
-                        <li class="nav-item">
+                        <li class="nav-item <?php if($action == "allPosts") echo 'item-active'?>">
 							<a class="nav-link" href="index.php?action=allPosts">Tous les billets</a>
 						</li>
-                        <li class="nav-item">
+                        <li class="nav-item <?php if($action == "allComments") echo 'item-active'?>">
 							<a class="nav-link" href="index.php?action=allComments">Tous les commentaires</a>
 						</li>
-                        <li class="nav-item">
-							<a class="nav-link" href="index.php?action=reportedComments">Commentaires signalés</a>
+                        <li class="nav-item <?php if($action == "allCommentsReported") echo 'item-active'?>">
+							<a class="nav-link" href="index.php?action=allCommentsReported">Commentaires signalés</a>
 						</li>
                         <li class="nav-item">
-							<a class="nav-link" href="index.php?action=goToHomepage">Aller sur le site</a>
+							<a class="nav-link" href="../index.php">Aller sur le site</a>
 						</li>
                         <li class="nav-item">
 							<a class="nav-link" href="index.php?action=logOut">Se déconnecter</a>

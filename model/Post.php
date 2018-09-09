@@ -50,6 +50,13 @@ class Post{
         return $post;
     }
 
+    public function getCountPost(){
+        $req = $this->connect->prepare("SELECT COUNT(id) FROM post");
+        $req->execute();
+        $nbPost = $req->fetch(); 
+        return $nbPost;
+    }
+
     public function insertPost(){
         try{
             $req = $this->connect->prepare("INSERT INTO post (title, content, created_at, id_user) VALUES (:title, :content, NOW(), 1)");
@@ -73,6 +80,17 @@ class Post{
             return $message;
         }catch(PDOException $e){
             return "Votre enregistrement a échoué, en voici la raison : ".$e->getMessage();
+        }
+    }
+
+    public function deletePost($id){
+        try{
+            $req = $this->connect->prepare("DELETE FROM post WHERE id = ".$id);
+            $req->execute();
+            $message = "Le billet a bien été supprimé !";
+            return $message;
+        }catch(PDOException $e){
+            return "Le billet n'a pas été supprimé, en voici la raison : ".$e->getMessage();
         }
     }
 

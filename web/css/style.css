@@ -53,6 +53,26 @@ h3{
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
+    height: 100%;
+    width: 75px;
 }
 
+.post-content{
+    padding-left: 15px;
+}
+
+.equal > [class*='col-'] .card {
+    height: 100%;
+}
+
+@media(max-width: 992px){
+    .navbar-brand{
+        width: auto;
+        margin-right: 0;
+    }
+
+    .header-content h1{
+        font-size: 3rem;
+    }
+}
 /*responsive*/

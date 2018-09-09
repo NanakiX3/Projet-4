@@ -4,7 +4,9 @@
 include_once("model/BddConnect.php");
 include_once("controller/PostController.php");
 include_once("controller/UserController.php");
+include_once("controller/ReportController.php");
 include_once("controller/CommentController.php");
+
 
 session_start();
 
@@ -98,6 +100,12 @@ switch ($action){
         $post = getOnePost($_GET['idPost']);
         $listComments = getCommentsByPost($_GET['idPost']);
         $vue ="view/post.php";
+    break;
+    case 'addReport':
+        $message = addReport($_GET['id']);
+        $post = getOnePost($_GET['idPost']);
+        $listComments = getCommentsByPost($_GET['idPost']);
+        $vue = "view/post.php";
     break;
     default: 
         $listLastFivePosts = getLastFivePosts();

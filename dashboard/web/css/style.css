@@ -48,6 +48,14 @@
     padding: 0.5em;
 }
 
+.item-active{
+    background: #1F9BCF;
+}
+
+.item-active .nav-link{
+    color: white !important;
+}
+
 .footer{
     position: fixed;
     bottom: 0;
@@ -58,6 +66,11 @@
     margin-left: 300px;
     text-align: center;
 }
+
+.equal > [class*='col-'] .card {
+    height: 100%;
+}
+
 
 @media(max-width: 992px){
     
@@ -85,4 +98,5 @@
     .navbar-nav .nav-link{
         padding-left: 10px;
     }
+
 }

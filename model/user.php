@@ -86,6 +86,13 @@ class User{
         
     }
 
+    public function getCountUser(){
+        $req = $this->connect->prepare("SELECT COUNT(id) FROM user WHERE id_role != 2 ");
+        $req->execute();
+        $nbUser = $req->fetch(); 
+        return $nbUser;
+    }
+
     //id
     public function getId(){
         return $this->id;

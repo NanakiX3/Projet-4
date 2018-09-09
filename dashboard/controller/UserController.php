@@ -9,3 +9,8 @@ function verifLogin($id){
     return $userLogin;
 }
 
+function getCountUser(){
+    $user = new User();
+    $nbUser = $user->getCountUser();
+    return $nbUser;
+}

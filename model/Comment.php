@@ -29,6 +29,54 @@ class Comment{
         }
     }
 
+    public function deleteComment($id){
+        try{
+            $req = $this->connect->prepare("DELETE FROM comment WHERE id = ".$id);
+            $req->execute();
+            $message = "Ce commentaire a bien été supprimé !";
+            return $message;
+        }catch(PDOException $e){
+            return "Ce commentaire n'a pas été supprimé, en voici la raison : ".$e->getMessage();
+        }
+        
+    }
+
+    public function allComments(){
+        $req = $this->connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment ORDER BY dateComment desc ");
+        $req->setFetchMode(PDO::FETCH_OBJ);
+        $listComments = array();
+        while ($obj = $req->fetch()){
+            $comment = new Comment();
+            $comment->setId($obj->id);
+            $comment->setContent($obj->content);
+            $comment->setDateComment($obj->dateComment);
+            $user = new User();
+            $comment->setUser($user->getUserById($obj->id_user));
+            $post = new Post();
+            $comment->setPost($post->getPost($obj->id_post));
+            $listComments[] = $comment;
+        }
+        return $listComments;
+    }
+
+    public function allCommentsReported(){
+        $req = $this->connect->query("SELECT c.id, c.content, c.dateComment, c.id_user, c.id_post, COUNT(r.id_comment) as nbReport FROM comment c INNER JOIN report r ON r.id_comment = c.id GROUP BY c.id ORDER BY nbReport desc ");
+        $req->setFetchMode(PDO::FETCH_OBJ);
+        $listCommentsReported = array();
+        while ($obj = $req->fetch()){
+            $comment = new Comment();
+            $comment->setId($obj->id);
+            $comment->setContent($obj->content);
+            $comment->setDateComment($obj->dateComment);
+            $user = new User();
+            $comment->setUser($user->getUserById($obj->id_user));
+            $post = new Post();
+            $comment->setPost($post->getPost($obj->id_post));
+            $listCommentsReported[] = $comment;
+        }
+        return $listCommentsReported;
+    }
+
     public function getCommentsByPost($idPost){
         $req = $this->connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id_post = ".$idPost." ORDER BY dateComment asc ");
         $req->setFetchMode(PDO::FETCH_OBJ);
@@ -47,23 +95,27 @@ class Comment{
         return $listComments;
     }
 
-    public function deleteComment($id){
-        try{
-            $req = $this->connect->prepare("DELETE FROM comment WHERE id = ".$id);
-            $req->execute();
-            $message = "Ce commentaire a bien été supprimé !";
-            return $message;
-        }catch(PDOException $e){
-            return "Ce commentaire n'a pas été supprimé, en voici la raison : ".$e->getMessage();
-        }
-        
-    }
-
     public function getCountCommentByPostId($id){
         $req = $this->connect->prepare("SELECT COUNT(id) FROM comment WHERE id_post = ".$id);
         $req->execute();
         $nbComment = $req->fetch(); 
         return $nbComment;
+    }
+
+    public function getCommentById($id){
+        $req = $this->connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id = ".$id);
+        $req->setFetchMode(PDO::FETCH_OBJ);
+        $comment = new Comment();
+        while ($obj = $req->fetch()){            
+            $comment->setId($obj->id);
+            $comment->setContent($obj->content);
+            $comment->setDateComment($obj->dateComment);
+            $user = new User();
+            $comment->setUser($user->getUserById($obj->id_user));
+            $post = new Post();
+            $comment->setPost($post->getPost($obj->id_post));
+        }
+        return $comment;
     }
 
 
