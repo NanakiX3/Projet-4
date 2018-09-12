@@ -2,8 +2,8 @@
 -- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:8889
--- Généré le :  Dim 09 sep. 2018 à 16:03
+-- Hôte : localhost:3306
+-- Généré le :  mer. 12 sep. 2018 à 19:57
 -- Version du serveur :  5.6.34-log
 -- Version de PHP :  7.1.5
 
@@ -112,7 +112,7 @@ CREATE TABLE `user` (
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `identifiant` varchar(50) NOT NULL,
-  `password` varchar(40) NOT NULL,
+  `password` varchar(60) NOT NULL,
   `mail` varchar(254) NOT NULL,
   `id_role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -122,101 +122,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstName`, `lastName`, `identifiant`, `password`, `mail`, `id_role`) VALUES
-(1, 'Jean', 'FORTEROCHE', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'julinhop72@gmail.com', 2),
-(2, 'Julien', 'Pinto', 'JulienP', '5c682c2d1ec4073e277f9ba9f4bdf07e5794dabe', 'julienPinto@mail.com', 1);
-
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `comment`
---
-ALTER TABLE `comment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `comment_billet0_FK` (`id_post`),
-  ADD KEY `comment_user_FK` (`id_user`);
-
---
--- Index pour la table `post`
---
-ALTER TABLE `post`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `billet_user_FK` (`id_user`);
-
---
--- Index pour la table `report`
---
-ALTER TABLE `report`
-  ADD PRIMARY KEY (`id_comment`,`id_user`),
-  ADD KEY `signaler_user0_FK` (`id_user`);
-
---
--- Index pour la table `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_droit_FK` (`id_role`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `comment`
---
-ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT pour la table `post`
---
-ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT pour la table `role`
---
-ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `comment`
---
-ALTER TABLE `comment`
-  ADD CONSTRAINT `comment_billet0_FK` FOREIGN KEY (`id_post`) REFERENCES `post` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_user_FK` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `post`
---
-ALTER TABLE `post`
-  ADD CONSTRAINT `billet_user_FK` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
-
---
--- Contraintes pour la table `report`
---
-ALTER TABLE `report`
-  ADD CONSTRAINT `signaler_comment_FK` FOREIGN KEY (`id_comment`) REFERENCES `comment` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `signaler_user0_FK` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `user`
---
-ALTER TABLE `user`
-  ADD CONSTRAINT `user_droit_FK` FOREIGN KEY (`id_role`) REFERENCES `role` (`id`);
+(1, 'Jean', 'FORTEROCHE', 'admin', '$2y$11$gFxCGcHQ3J/5ipk1blW.I.2Kd/cRk6fIGCFxCUUeEVXW0a3VuJQWm', 'julinhop72@gmail.com', 2),
+(2, 'Julien', 'Pinto', 'JulienP', '$2y$11$yO6KTXhxo5ziCNpBjRzvou6yLe3iD3/mULVf90ZX7wDYfOF9jAjIG', 'julienPinto@mail.com', 1)
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
