@@ -23,7 +23,7 @@ class User{
             
             $options = [
                 'cost' => 11,                                         
-                'salt' => random_bytes(22),
+                'salt' => random_bytes(22)
             ];
             $password = password_hash($this->password, PASSWORD_BCRYPT, $options);
         

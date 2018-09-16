@@ -49,6 +49,9 @@ switch ($action){
             $message = "La combinaison identifiant et mot de passe est incorrect";
             $title = "Blog de Jean Forteroche - Se connecter";
             $vue = "view/login.php";
+        }else if(is_string($userLogin)){
+            $message = $userLogin;
+            $vue = "view/login.php";
         }else{
             $_SESSION["user"] = $userLogin->getId();
            

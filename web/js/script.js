@@ -1,13 +1,5 @@
 $(document).ready(function(){
 
-          var canvas = document.querySelector('.snow'),
-          ctx = canvas.getContext('2d'),
-          element = document.getElementById('header'),
-          windowW = element.offsetWidth,
-          windowH = element.offsetHeight,
-          numFlakes = 200,
-          flakes = [];
-      console.log(windowW);
       function Flake(x, y) {
         var maxWeight = 2,
             maxSpeed = 3;
@@ -73,22 +65,7 @@ $(document).ready(function(){
         while (i--) {
           
           flakeA = flakes[i];
-          flakeA.update();
-          
-
-          /*for (z = 0; z < flakes.length; z++) {
-            flakeB = flakes[z];
-            if (flakeA !== flakeB && distanceBetween(flakeA, flakeB) < 150) {          
-              ctx.beginPath();
-              ctx.moveTo(flakeA.x, flakeA.y);
-              ctx.lineTo(flakeB.x, flakeB.y);
-              ctx.strokeStyle = '#444444';
-              ctx.stroke();
-              ctx.closePath();
-            }
-          }*/
-
-          
+          flakeA.update();          
           ctx.beginPath();
           ctx.arc(flakeA.x, flakeA.y, flakeA.weight, 0, 2 * Math.PI, false);
           ctx.fillStyle = 'rgba(255, 255, 255, ' + flakeA.alpha + ')';
@@ -119,6 +96,18 @@ $(document).ready(function(){
         return Math.sqrt(dx*dx + dy*dy);
       }
 
-      init();
+      if($('.snow').length > 0){
+        var canvas = document.querySelector('.snow'),
+        ctx = canvas.getContext('2d'),
+        element = document.getElementById('header'),
+        windowW = element.offsetWidth,
+        windowH = element.offsetHeight,
+        numFlakes = 200,
+        flakes = [];
+
+        init();
+      }
+
+      
 
 })
