@@ -15,15 +15,22 @@ class User{
         $db = BddConnect::getInstance();
         $this->connect = $db->getDbh();
     }
-
+    
 
     public function addUser(){
         try{
-            $req = $this->connect->prepare("INSERT INTO user (lastName, firstName, identifiant, password, mail, id_role) VALUES (:lastName, :firstName, :identifiant, SHA1(:password), :mail, 1)");
+            $req = $this->connect->prepare("INSERT INTO user (lastName, firstName, identifiant, password, mail, id_role) VALUES (:lastName, :firstName, :identifiant, :password, :mail, 1)");
+            
+            $options = [
+                'cost' => 11,                                         
+                'salt' => random_bytes(22),
+            ];
+            $password = password_hash($this->password, PASSWORD_BCRYPT, $options);
+        
             $req->bindParam(":lastName", $this->lastName, PDO::PARAM_STR);
             $req->bindParam(":firstName", $this->firstName, PDO::PARAM_STR);
             $req->bindParam(":identifiant", $this->identifiant, PDO::PARAM_STR);
-            $req->bindParam(":password", $this->password, PDO::PARAM_STR);
+            $req->bindParam(":password", $password, PDO::PARAM_STR);
             $req->bindParam(":mail", $this->mail, PDO::PARAM_STR);
             $req->execute();
             $message = "Vous êtes bien inscrit sur les nouvelles de Jean FORTEROCHE!";
@@ -34,29 +41,33 @@ class User{
     }
 
     public function getUser($identifiant, $password){
-        $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, password, mail, id_role FROM user WHERE identifiant = :identifiant AND password = :password");
-        $password = SHA1($password);
+        $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, password, mail, id_role FROM user WHERE identifiant = :identifiant");
         
         $req->bindParam(":identifiant", $identifiant, PDO::PARAM_STR);
-        $req->bindParam(":password", $password, PDO::PARAM_STR);
         $req->execute();
         $req->setFetchMode(PDO::FETCH_OBJ);
         $obj = $req->fetch();
         if(empty($obj)){
             return null;
         }else{
-            $user = new User();
-            $user->setId($obj->id);
-            $user->setLastName($obj->lastName);
-            $user->setFirstName($obj->firstName);
-            $user->setIdentifiant($obj->identifiant);
-            $user->setPassword($obj->password);
-            $user->setMail($obj->mail);
-            $role = new Role();
-            $userRole = $role->getRoleById($obj->id_role);
-            $user->setRole($userRole->getRole());
+            if (password_verify($password, $obj->password)) {
+                $user = new User();
+                $user->setId($obj->id);
+                $user->setLastName($obj->lastName);
+                $user->setFirstName($obj->firstName);
+                $user->setIdentifiant($obj->identifiant);
+                $user->setPassword($obj->password);
+                $user->setMail($obj->mail);
+                $role = new Role();
+                $userRole = $role->getRoleById($obj->id_role);
+                $user->setRole($userRole->getRole());
 
-            return $user;
+                return $user;
+            } else {
+                return 'Le mot de passe est invalide :(';
+            }
+            
+           
         }
         
     }

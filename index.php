@@ -1,4 +1,7 @@
-<?php 
+<?php
+session_start();
+ob_start();
+
 
 //includes
 include_once("model/BddConnect.php");
@@ -8,7 +11,7 @@ include_once("controller/ReportController.php");
 include_once("controller/CommentController.php");
 
 
-session_start();
+
 
 if(isset($_GET['action'])){
     $action = $_GET['action'];
@@ -20,12 +23,15 @@ if(isset($_GET['action'])){
 switch ($action){
     case 'accueil':
         $listLastFivePosts = getLastFivePosts();
+        $title = "Blog de Jean Forteroche - Accueil";
         $vue = "view/accueil.php";
     break;
     case 'signIn':
+        $title = "Blog de Jean Forteroche - Se connecter";
         $vue = "view/login.php";
     break;
     case 'signUp':
+        $title = "Blog de Jean Forteroche - S'inscrire";
         $vue = "view/newUser.php";
     break;
     case 'Dashbord':
@@ -33,16 +39,15 @@ switch ($action){
         exit;
     break;
     case 'addUser':
-    //conditions si pas nom 
-        // si pas prénom ...
-        // ex if(isset($_POST['nom']) && empty($_POST['nom'])) $message = "Veuillez renseigner un Nom !";
         $message = addUser();
+        $title = "Blog de Jean Forteroche - S'inscrire";
         $vue = "view/newUser.php";
     break;
     case 'login':
         $userLogin = verifLogin();
         if(!$userLogin){
             $message = "La combinaison identifiant et mot de passe est incorrect";
+            $title = "Blog de Jean Forteroche - Se connecter";
             $vue = "view/login.php";
         }else{
             $_SESSION["user"] = $userLogin->getId();
@@ -52,6 +57,7 @@ switch ($action){
                 exit;
             }else{
                 $listLastFivePosts = getLastFivePosts();
+                $title = "Blog de Jean Forteroche - Accueil";
                 $vue = "view/accueil.php";
             }
            
@@ -70,16 +76,19 @@ switch ($action){
     
         session_destroy();
         $listLastFivePosts = getLastFivePosts();
+        $title = "Blog de Jean Forteroche - Accueil";
         $vue = "view/accueil.php";
     break;
     case 'allPosts':
         $listPosts = getAllPosts();
+        $title = "Blog de Jean Forteroche - Tous les billets";
         $vue = "view/allPosts.php";
     break;
     case 'post':
         if(isset($_GET['id'])){
             $post = getOnePost($_GET['id']);
             $listComments = getCommentsByPost($_GET['id']);
+            $title = "Blog de Jean Forteroche - ".$post->getTitle();
             $vue = "view/post.php";
         }else{
             $vue = "view/error404.php";
@@ -93,22 +102,26 @@ switch ($action){
         }
         $post = getOnePost($_POST['idPost']);
         $listComments = getCommentsByPost($_POST['idPost']);
+        $title = "Blog de Jean Forteroche - ".$post->getTitle();
         $vue = "view/post.php";
     break;
     case 'deleteComment':
         $message = deleteComment($_GET['idComment']);
         $post = getOnePost($_GET['idPost']);
         $listComments = getCommentsByPost($_GET['idPost']);
+        $title = "Blog de Jean Forteroche - ".$post->getTitle();
         $vue ="view/post.php";
     break;
     case 'addReport':
         $message = addReport($_GET['id']);
         $post = getOnePost($_GET['idPost']);
         $listComments = getCommentsByPost($_GET['idPost']);
+        $title = "Blog de Jean Forteroche - ".$post->getTitle();
         $vue = "view/post.php";
     break;
     default: 
         $listLastFivePosts = getLastFivePosts();
+        $title = "Blog de Jean Forteroche - Accueil";
         $vue = 'view/accueil.php';
 }
 
@@ -116,3 +129,5 @@ switch ($action){
 
 
 include_once("layout/layout.php");
+
+ob_end_flush();

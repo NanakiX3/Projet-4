@@ -1,7 +1,7 @@
-
 <?php
+
 session_start();
-   
+ob_start();
         //includes
 include("../model/BddConnect.php");
 include_once("controller/PostController.php");
@@ -25,7 +25,7 @@ if($userLogin->getRole() == 'lecteur'){
 
     switch ($action){
         case 'accueil':
-           
+            $title = "Blog Jean Forteroche - Tableau de bord - Accueil";
             $vue = "view/accueil.php";
         break;    
         case 'logOut':
@@ -45,6 +45,7 @@ if($userLogin->getRole() == 'lecteur'){
             exit();
         break;
         case 'addPost':
+            $title = "Blog Jean Forteroche - Tableau de bord - Publication d'un billet";
             $vue = "view/addPost.php";
         break;
         case 'addPostBdd':
@@ -53,7 +54,7 @@ if($userLogin->getRole() == 'lecteur'){
             }else{
                 $message = "Veuillez renseigner un titre !";
             }
-            
+            $title = "Blog Jean Forteroche - Tableau de bord - Publication d'un billet";
             $vue = "view/addPost.php";
         break;
         case 'updatePostBdd':
@@ -64,56 +65,56 @@ if($userLogin->getRole() == 'lecteur'){
                 $message = "Veuillez renseigner un titre !";
             }
             $post = getOnePost($id);
+            $title = "Blog Jean Forteroche - Tableau de bord - Édition d'un billet";
             $vue = "view/editPost.php";
         break;
         case 'allPosts':
             $listPosts = getAllPosts();
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les billets";
             $vue = "view/allPosts.php";
-        break;
-        case 'post':
-            if(isset($_GET['id'])){
-                $post = getOnePost($_GET['id']);
-                $listComments = getCommentsByPost($_GET['id']);
-                $vue = "view/post.php";
-            }else{
-                $vue = "view/error404.php";
-            }
         break;
         case 'editPost':
             $post = getOnePost($_GET['id']);
+            $title = "Blog Jean Forteroche - Tableau de bord - Édition d'un billet";
             $vue = "view/editPost.php";
         break;
         case 'deletePost':
             $message = deletePost($_GET['id']);
             $listPosts = getAllPosts();
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les billets";
             $vue = "view/allPosts.php";
         break;
         case 'allComments':
             $listComments = allComments();
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les commentaires";
             $vue = "view/allComments.php";
         break;
         case 'deleteComment':
             $message = deleteComment($_GET['id']);
             $listComments = allComments();
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les commentaires";
             $vue = "view/allComments.php";
         break;
         case 'allCommentsReported':
             $listCommentsReported = allCommentsReported();
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les commentaires signalés";
             $vue = "view/allCommentsReported.php";
         break;
         case 'viewReport':
             $comment = getCommentById($_GET["id"]);
             $listReport = getReportByIdComment($_GET['id']);
+            $title = "Blog Jean Forteroche - Tableau de bord - Signalement(s) d'un commentaire";
             $vue = "view/viewReport.php";
         break;
         case 'deleteReport':
             $message = deleteAllReport($_GET["id"]);
             $listCommentsReported = allCommentsReported();
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les commentaires signalés";
             $vue = "view/allCommentsReported.php";
         break;
 
         default:
-       
+            $title = "Blog Jean Forteroche - Tableau de bord - Accueuil";
             $vue = 'view/accueil.php';
     }
 
@@ -122,5 +123,5 @@ if($userLogin->getRole() == 'lecteur'){
 
 include_once("layout/layout.php");
         
-
+ob_end_flush();
 
