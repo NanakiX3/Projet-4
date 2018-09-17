@@ -1,4 +1,7 @@
-<?php 
+<?php
+session_start();
+ob_start();
+
 
 //includes
 include_once("model/BddConnect.php");
@@ -8,7 +11,7 @@ include_once("controller/ReportController.php");
 include_once("controller/CommentController.php");
 
 
-session_start();
+
 
 if(isset($_GET['action'])){
     $action = $_GET['action'];
@@ -49,7 +52,7 @@ switch ($action){
             $vue = "view/login.php";
         }else{
             $_SESSION["user"] = $userLogin->getId();
-           
+            
             if($userLogin->getRole() == 'admin'){
                 header('location:dashboard/index.php');
                 exit;
@@ -57,7 +60,7 @@ switch ($action){
                 $listLastFivePosts = getLastFivePosts();
                 $vue = "view/accueil.php";
             }
-           
+            
         }
     break;
     case 'logOut':
@@ -119,3 +122,5 @@ switch ($action){
 
 
 include_once("layout/layout.php");
+
+ob_end_flush();
