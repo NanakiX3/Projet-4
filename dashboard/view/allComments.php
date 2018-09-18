@@ -31,7 +31,9 @@
                             <td data-label="Commentaire"><?php echo htmlspecialchars($comment->getContent()); ?></td>
                             <td data-label="Nb signalement"><?php echo getCountReportedByComment($comment->getId())[0] ?></td>
                             <td data-label="Actions">
-                                <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $comment->getId();?>" >Supprimer</a>
+                                <div class="btn-action">
+                                    <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $comment->getId();?>" >Supprimer</a>
+                                </div>
                             </td>
                         </tr>
                         <div class="modal fade" id="modalDelete<?php echo $comment->getId();?>" tabindex="-1" role="dialog" aria-hidden="true">

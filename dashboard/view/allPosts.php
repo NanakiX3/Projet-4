@@ -29,9 +29,11 @@
                             <td data-label="Dernière modification"><?php if(!empty($post->getUpdateAt())){echo date("d/m/Y H:i", strtotime($post->getUpdateAt())) ;}  ?></td>
                             <td data-label="Nb commentaires"><?php echo getCountCommentByPost($post->getId())[0] ?></td>
                             <td data-label="Actions">
-                                <a class="btn btn-sm btn-success" href="../index.php?action=post&id=<?php echo $post->getId();?>">Voir</a>
-                                <a class="btn btn-sm btn-warning" href="index.php?action=editPost&id=<?php echo $post->getId();?>">Modifier</a>
-                                <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $post->getId();?>" >Supprimer</a>
+                                <div class="btn-action">
+                                    <a class="btn btn-sm btn-success" href="../index.php?action=post&id=<?php echo $post->getId();?>">Voir</a>
+                                    <a class="btn btn-sm btn-warning" href="index.php?action=editPost&id=<?php echo $post->getId();?>">Modifier</a>
+                                    <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $post->getId();?>" >Supprimer</a>
+                                </div>
                             </td>
                         </tr>
                         <div class="modal fade" id="modalDelete<?php echo $post->getId();?>" tabindex="-1" role="dialog" aria-hidden="true">
