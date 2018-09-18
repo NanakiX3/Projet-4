@@ -21,42 +21,48 @@
                 </thead>
                 <tbody>
                     <?php
-
-                    foreach ($listPosts as $post){ ?>
+                    if(empty($listPosts)){ ?>
                         <tr>
-                            <td scope="row" data-label="Titre du chapitre"><?php echo $post->getTitle() ?></td>
-                            <td data-label="Date de publication"><?php echo date("d/m/Y H:i", strtotime($post->getCreatedAt())) ; ?></td>
-                            <td data-label="Dernière modification"><?php if(!empty($post->getUpdateAt())){echo date("d/m/Y H:i", strtotime($post->getUpdateAt())) ;}  ?></td>
-                            <td data-label="Nb commentaires"><?php echo getCountCommentByPost($post->getId())[0] ?></td>
-                            <td data-label="Actions">
-                                <div class="btn-action">
-                                    <a class="btn btn-sm btn-success" href="../index.php?action=post&id=<?php echo $post->getId();?>">Voir</a>
-                                    <a class="btn btn-sm btn-warning" href="index.php?action=editPost&id=<?php echo $post->getId();?>">Modifier</a>
-                                    <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $post->getId();?>" >Supprimer</a>
-                                </div>
-                            </td>
+                            <td colspan=5>Aucun chapitre</td>
                         </tr>
-                        <div class="modal fade" id="modalDelete<?php echo $post->getId();?>" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Confirmer la suppression</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Confirmez-vous la suppression du chapitre ?
-                                </div>
-                                <div class="modal-footer">
-                                    <a class="btn btn-sm btn-success" href="index.php?action=deletePost&id=<?php echo $post->getId();?>">Confirmer</a>
-                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Annuler</button>                
-                                </div>
+                    <?php }else{ 
+                        foreach ($listPosts as $post){ ?>
+                            <tr>
+                                <td scope="row" data-label="Titre du chapitre"><?php echo $post->getTitle() ?></td>
+                                <td data-label="Date de publication"><?php echo date("d/m/Y H:i", strtotime($post->getCreatedAt())) ; ?></td>
+                                <td data-label="Dernière modification"><?php if(!empty($post->getUpdateAt())){echo date("d/m/Y H:i", strtotime($post->getUpdateAt())) ;}  ?></td>
+                                <td data-label="Nb commentaires"><?php echo getCountCommentByPost($post->getId())[0] ?></td>
+                                <td data-label="Actions">
+                                    <div class="btn-action">
+                                        <a class="btn btn-sm btn-success" href="../index.php?action=post&id=<?php echo $post->getId();?>">Voir</a>
+                                        <a class="btn btn-sm btn-warning" href="index.php?action=editPost&id=<?php echo $post->getId();?>">Modifier</a>
+                                        <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $post->getId();?>" >Supprimer</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="modalDelete<?php echo $post->getId();?>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirmer la suppression</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Confirmez-vous la suppression du chapitre ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn btn-sm btn-success" href="index.php?action=deletePost&id=<?php echo $post->getId();?>">Confirmer</a>
+                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Annuler</button>                
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    <?php } ?>
+                        <?php }
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
