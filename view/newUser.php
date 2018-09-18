@@ -14,22 +14,22 @@
       <form action="index.php?action=addUser" method="POST" onsubmit="return verifForm(this)">
           <div class="form-group">
             <label for="lastName">Nom</label>
-            <input class="form-control" id="lastName" placeholder="Nom" type="text" name="lastName" required>
+            <input class="form-control" id="lastName" placeholder="Nom" type="text" name="lastName" onKeyUp="verifLastName(this)" required>
           </div>
 
           <div class="form-group">
             <label for="firstName">Prénom</label>
-            <input class="form-control" id="firstName" placeholder="Prénom" type="text" name="firstName" required>
+            <input class="form-control" id="firstName" placeholder="Prénom" type="text" name="firstName" onKeyUp="verifFirstName(this)" required>
           </div>
 
           <div class="form-group">
             <label for="identifiant">Identifiant</label>
-            <input class="form-control" id="identifiant" placeholder="Identifiant" type="text" name="identifiant" required>
+            <input class="form-control" id="identifiant" placeholder="Identifiant" type="text" name="identifiant" onKeyUp="verifIdentifiant(this)" required>
           </div>
 
           <div class="form-group">
             <label for="password">Mot de passe</label>
-            <input class="form-control" id="password" placeholder="Mot de passe" type="password" name="password" required>
+            <input class="form-control" id="password" placeholder="Mot de passe" type="password" name="password" onKeyUp="verifPassword(this)" required>
           </div>
 
           <div class="form-group">

@@ -31,7 +31,8 @@ class Comment{
 
     public function deleteComment($id){
         try{
-            $req = $this->connect->prepare("DELETE FROM comment WHERE id = ".$id);
+            $req = $this->connect->prepare("DELETE FROM comment WHERE id = :id");
+            $req->bindParam(":id", $id, PDO::PARAM_INT);
             $req->execute();
             $message = "Ce commentaire a bien été supprimé !";
             return $message;
@@ -42,80 +43,112 @@ class Comment{
     }
 
     public function allComments(){
-        $req = $this->connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment ORDER BY dateComment desc ");
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $listComments = array();
-        while ($obj = $req->fetch()){
-            $comment = new Comment();
-            $comment->setId($obj->id);
-            $comment->setContent($obj->content);
-            $comment->setDateComment($obj->dateComment);
-            $user = new User();
-            $comment->setUser($user->getUserById($obj->id_user));
-            $post = new Post();
-            $comment->setPost($post->getPost($obj->id_post));
-            $listComments[] = $comment;
+        try{
+            $req = $this->connect->prepare("SELECT id, content, dateComment, id_user, id_post FROM comment ORDER BY dateComment desc ");
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
+            $listComments = array();
+            while ($obj = $req->fetch()){
+                $comment = new Comment();
+                $comment->setId($obj->id);
+                $comment->setContent($obj->content);
+                $comment->setDateComment($obj->dateComment);
+                $user = new User();
+                $comment->setUser($user->getUserById($obj->id_user));
+                $post = new Post();
+                $comment->setPost($post->getPost($obj->id_post));
+                $listComments[] = $comment;
+            }
+            return $listComments;
+        }catch(PDOException $e){
+            return "Cette requête n'a pas fonctionné, en voici la raison : ".$e->getMessage();
         }
-        return $listComments;
+        
     }
 
     public function allCommentsReported(){
-        $req = $this->connect->query("SELECT c.id, c.content, c.dateComment, c.id_user, c.id_post, COUNT(r.id_comment) as nbReport FROM comment c INNER JOIN report r ON r.id_comment = c.id GROUP BY c.id ORDER BY nbReport desc ");
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $listCommentsReported = array();
-        while ($obj = $req->fetch()){
-            $comment = new Comment();
-            $comment->setId($obj->id);
-            $comment->setContent($obj->content);
-            $comment->setDateComment($obj->dateComment);
-            $user = new User();
-            $comment->setUser($user->getUserById($obj->id_user));
-            $post = new Post();
-            $comment->setPost($post->getPost($obj->id_post));
-            $listCommentsReported[] = $comment;
+        try{
+            $req = $this->connect->prepare("SELECT c.id, c.content, c.dateComment, c.id_user, c.id_post, COUNT(r.id_comment) as nbReport FROM comment c INNER JOIN report r ON r.id_comment = c.id GROUP BY c.id ORDER BY nbReport desc ");
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
+            $listCommentsReported = array();
+            while ($obj = $req->fetch()){
+                $comment = new Comment();
+                $comment->setId($obj->id);
+                $comment->setContent($obj->content);
+                $comment->setDateComment($obj->dateComment);
+                $user = new User();
+                $comment->setUser($user->getUserById($obj->id_user));
+                $post = new Post();
+                $comment->setPost($post->getPost($obj->id_post));
+                $listCommentsReported[] = $comment;
+            }
+            return $listCommentsReported;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
-        return $listCommentsReported;
+        
     }
 
     public function getCommentsByPost($idPost){
-        $req = $this->connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id_post = ".$idPost." ORDER BY dateComment asc ");
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $listComments = array();
-        while ($obj = $req->fetch()){
-            $comment = new Comment();
-            $comment->setId($obj->id);
-            $comment->setContent($obj->content);
-            $comment->setDateComment($obj->dateComment);
-            $user = new User();
-            $comment->setUser($user->getUserById($obj->id_user));
-            $post = new Post();
-            $comment->setPost($post->getPost($obj->id_post));
-            $listComments[] = $comment;
+        try{
+            $req = $this->connect->prepare("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id_post = :idPost ORDER BY dateComment asc ");
+            $req->bindParam(":idPost", $idPost, PDO::PARAM_INT);
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
+            $listComments = array();
+            while ($obj = $req->fetch()){
+                $comment = new Comment();
+                $comment->setId($obj->id);
+                $comment->setContent($obj->content);
+                $comment->setDateComment($obj->dateComment);
+                $user = new User();
+                $comment->setUser($user->getUserById($obj->id_user));
+                $post = new Post();
+                $comment->setPost($post->getPost($obj->id_post));
+                $listComments[] = $comment;
+            }
+            return $listComments;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
-        return $listComments;
+        
     }
 
     public function getCountCommentByPostId($id){
-        $req = $this->connect->prepare("SELECT COUNT(id) FROM comment WHERE id_post = ".$id);
-        $req->execute();
-        $nbComment = $req->fetch(); 
-        return $nbComment;
+        try{
+            $req = $this->connect->prepare("SELECT COUNT(id) FROM comment WHERE id_post = :id");
+            $req->bindParam(":id", $id, PDO::PARAM_INT);
+            $req->execute();
+            $nbComment = $req->fetch(); 
+            return $nbComment;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
+        }
+        
     }
 
     public function getCommentById($id){
-        $req = $this->connect->query("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id = ".$id);
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $comment = new Comment();
-        while ($obj = $req->fetch()){            
-            $comment->setId($obj->id);
-            $comment->setContent($obj->content);
-            $comment->setDateComment($obj->dateComment);
-            $user = new User();
-            $comment->setUser($user->getUserById($obj->id_user));
-            $post = new Post();
-            $comment->setPost($post->getPost($obj->id_post));
+        try{
+            $req = $this->connect->prepare("SELECT id, content, dateComment, id_user, id_post FROM comment WHERE id = :id");
+            $req->bindParam(":id", $id, PDO::PARAM_INT);
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
+            $comment = new Comment();
+            while ($obj = $req->fetch()){            
+                $comment->setId($obj->id);
+                $comment->setContent($obj->content);
+                $comment->setDateComment($obj->dateComment);
+                $user = new User();
+                $comment->setUser($user->getUserById($obj->id_user));
+                $post = new Post();
+                $comment->setPost($post->getPost($obj->id_post));
+            }
+            return $comment;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
-        return $comment;
+        
     }
 
 

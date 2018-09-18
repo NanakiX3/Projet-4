@@ -11,10 +11,10 @@
         <div class="col-lg-4 col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Nombre de billets publiés</h4>
+                    <h4 class="card-title">Nombre de chapitres publiés</h4>
                     
-                    <p class="card-text"><?php echo getCountPost()[0]; ?> Billets</p>
-                    <a href="index.php?action=allPosts" class="btn btn-sm btn-primary">Voir les Billets</a>
+                    <p class="card-text"><?php echo getCountPost()[0]; ?> Chapitres</p>
+                    <a href="index.php?action=allPosts" class="btn btn-sm btn-primary">Voir les Chapitres</a>
                     <a href="index.php?action=addPost" class="btn btn-sm btn-primary">Publier</a>
                 </div>
             </div>

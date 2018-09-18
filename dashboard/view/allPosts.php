@@ -11,24 +11,24 @@
                 </div>
             <?php } ?>
 
-            <table class="table table-hover table-bordered table-responsive-sm table-sm bg-light">
+            <table class="table table-hover table-bordered table-sm bg-light">
                 <thead class="bg-info text-white">
-                    <th>Titre du billet</th>
-                    <th>Date de publication</th>
-                    <th>Dernière modification</th>
-                    <th>Nb commentaires</th>
-                    <th>Actions</th>
+                    <th scope="col">Titre du chapitre</th>
+                    <th scope="col">Date de publication</th>
+                    <th scope="col">Dernière modification</th>
+                    <th scope="col">Nb commentaires</th>
+                    <th scope="col">Actions</th>
                 </thead>
                 <tbody>
                     <?php
 
                     foreach ($listPosts as $post){ ?>
                         <tr>
-                            <td><?php echo $post->getTitle() ?></td>
-                            <td><?php echo date("d/m/Y H:i", strtotime($post->getCreatedAt())) ; ?></td>
-                            <td><?php if(!empty($post->getUpdateAt())){echo date("d/m/Y H:i", strtotime($post->getUpdateAt())) ;}  ?></td>
-                            <td><?php echo getCountCommentByPost($post->getId())[0] ?></td>
-                            <td>
+                            <td scope="row" data-label="Titre du chapitre"><?php echo $post->getTitle() ?></td>
+                            <td data-label="Date de publication"><?php echo date("d/m/Y H:i", strtotime($post->getCreatedAt())) ; ?></td>
+                            <td data-label="Dernière modification"><?php if(!empty($post->getUpdateAt())){echo date("d/m/Y H:i", strtotime($post->getUpdateAt())) ;}  ?></td>
+                            <td data-label="Nb commentaires"><?php echo getCountCommentByPost($post->getId())[0] ?></td>
+                            <td data-label="Actions">
                                 <a class="btn btn-sm btn-success" href="../index.php?action=post&id=<?php echo $post->getId();?>">Voir</a>
                                 <a class="btn btn-sm btn-warning" href="index.php?action=editPost&id=<?php echo $post->getId();?>">Modifier</a>
                                 <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $post->getId();?>" >Supprimer</a>
@@ -44,7 +44,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    Confirmez-vous la suppression du billet ?
+                                    Confirmez-vous la suppression du chapitre ?
                                 </div>
                                 <div class="modal-footer">
                                     <a class="btn btn-sm btn-success" href="index.php?action=deletePost&id=<?php echo $post->getId();?>">Confirmer</a>

@@ -41,67 +41,81 @@ class User{
     }
 
     public function getUser($identifiant, $password){
-        $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, password, mail, id_role FROM user WHERE identifiant = :identifiant");
+        try {
+            $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, password, mail, id_role FROM user WHERE identifiant = :identifiant");
         
-        $req->bindParam(":identifiant", $identifiant, PDO::PARAM_STR);
-        $req->execute();
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $obj = $req->fetch();
-        if(empty($obj)){
-            return null;
-        }else{
-            if (password_verify($password, $obj->password)) {
-                $user = new User();
-                $user->setId($obj->id);
-                $user->setLastName($obj->lastName);
-                $user->setFirstName($obj->firstName);
-                $user->setIdentifiant($obj->identifiant);
-                $user->setPassword($obj->password);
-                $user->setMail($obj->mail);
-                $role = new Role();
-                $userRole = $role->getRoleById($obj->id_role);
-                $user->setRole($userRole->getRole());
+            $req->bindParam(":identifiant", $identifiant, PDO::PARAM_STR);
+            $req->execute();
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $obj = $req->fetch();
+            if(empty($obj)){
+                return null;
+            }else{
+                if (password_verify($password, $obj->password)) {
+                    $user = new User();
+                    $user->setId($obj->id);
+                    $user->setLastName($obj->lastName);
+                    $user->setFirstName($obj->firstName);
+                    $user->setIdentifiant($obj->identifiant);
+                    $user->setPassword($obj->password);
+                    $user->setMail($obj->mail);
+                    $role = new Role();
+                    $userRole = $role->getRoleById($obj->id_role);
+                    $user->setRole($userRole->getRole());
 
-                return $user;
-            } else {
-                return 'Le mot de passe est invalide :(';
+                    return $user;
+                } else {
+                    return 'Le mot de passe est invalide :(';
+                }
             }
-            
-           
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
         
     }
 
 
     public function getUserById($id){
-        $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, mail, id_role FROM user WHERE id = " . $id);
+        try{
+            $req = $this->connect->prepare("SELECT id, lastName, firstName, identifiant, mail, id_role FROM user WHERE id = :id");
         
-        $req->execute();
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $obj = $req->fetch();
-        if(empty($obj)){
-            return null;
-        }else{
-            $user = new User();
-            $user->setId($obj->id);
-            $user->setLastName($obj->lastName);
-            $user->setFirstName($obj->firstName);
-            $user->setIdentifiant($obj->identifiant);
-            $user->setMail($obj->mail);
-            $role = new Role();
-            $userRole = $role->getRoleById($obj->id_role);
-            $user->setRole($userRole->getRole());
+            $req->bindParam(":id", $id, PDO::PARAM_INT);
+            $req->execute();
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $obj = $req->fetch();
+            if(empty($obj)){
+                return null;
+            }else{
+                $user = new User();
+                $user->setId($obj->id);
+                $user->setLastName($obj->lastName);
+                $user->setFirstName($obj->firstName);
+                $user->setIdentifiant($obj->identifiant);
+                $user->setMail($obj->mail);
+                $role = new Role();
+                $userRole = $role->getRoleById($obj->id_role);
+                $user->setRole($userRole->getRole());
+    
+                return $user;
+            } 
 
-            return $user;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
+       
         
     }
 
     public function getCountUser(){
-        $req = $this->connect->prepare("SELECT COUNT(id) FROM user WHERE id_role != 2 ");
-        $req->execute();
-        $nbUser = $req->fetch(); 
-        return $nbUser;
+        try {
+            $req = $this->connect->prepare("SELECT COUNT(id) FROM user WHERE id_role != 2 ");
+            $req->execute();
+            $nbUser = $req->fetch(); 
+            return $nbUser;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
+        }
+        
     }
 
     //id

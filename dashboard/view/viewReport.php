@@ -6,7 +6,7 @@
             <a href="index.php?action=deleteReport&id=<?php echo $comment->getId(); ?>" class="badge badge-pill badge-success">Valider</a>
             <a href="" class="badge badge-pill badge-danger" data-toggle="modal" data-target="#modalDeleteComment">Supprimer</a>
             <blockquote class="blockquote">
-              <p class="mb-0"><?php echo $comment->getContent(); ?></p>
+              <p class="mb-0"><?php echo htmlspecialchars($comment->getContent()); ?></p>
               <footer class="blockquote-footer">
               <?php echo $comment->getUser()->getRole() == "admin" ? $comment->getUser()->getFirstName()." ".$comment->getUser()->getLastName() : $comment->getUser()->getIdentifiant(); ?>
               <cite title="Source Title"><?php echo date("d-m-Y H:i", strtotime($comment->getDateComment())); ?></cite></footer>
@@ -16,14 +16,14 @@
 
             <?php foreach($listReport as $report){ ?>
                 <blockquote class="blockquote">
-                <p class="mb-0"><?php echo $report->getMessage(); ?></p>
+                <p class="mb-0"><?php echo htmlspecialchars($report->getMessage()); ?></p>
                 <footer class="blockquote-footer">
                 <?php echo $report->getUser()->getFirstName()." ".$report->getUser()->getLastName() ?>
                 <cite title="Source Title"><?php echo date("d-m-Y H:i", strtotime($report->getReportingDate())); ?></cite></footer>
                 </blockquote>
             <?php } ?>
 
-            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalDeleteComment" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
