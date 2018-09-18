@@ -1,3 +1,9 @@
+#header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+}
+
 #wrapper{
     min-height: 100%;
     position: relative;
