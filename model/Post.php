@@ -17,44 +17,61 @@ class Post{
     }
 
     public function allPosts(){
-        $req = $this->connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc ");
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $listPosts = array();
-        while ($obj = $req->fetch()){
-            $post = new Post();
-            $post->setId($obj->id);
-            $post->setTitle($obj->title);
-            $post->setContent($obj->content);
-            $post->setCreatedAt($obj->created_at);
-            $post->setUpdateAt($obj->update_at);
-            $post->setUser($obj->id_user);
-            $listPosts[] = $post;
+        try{
+            $req = $this->connect->prepare("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc ");
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
+            $listPosts = array();
+            while ($obj = $req->fetch()){
+                $post = new Post();
+                $post->setId($obj->id);
+                $post->setTitle($obj->title);
+                $post->setContent($obj->content);
+                $post->setCreatedAt($obj->created_at);
+                $post->setUpdateAt($obj->update_at);
+                $post->setUser($obj->id_user);
+                $listPosts[] = $post;
+            }
+            return $listPosts;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
-        return $listPosts;
+        
     }
 
     public function getPost($id){
-        $req = $this->connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post WHERE id = ".$id);
-        $req->setFetchMode(PDO::FETCH_OBJ);
-
-        $post = new Post();
-        while ($obj = $req->fetch()){
-            $post->setId($obj->id);
-            $post->setTitle($obj->title);
-            $post->setContent($obj->content);
-            $post->setCreatedAt($obj->created_at);
-            $post->setUpdateAt($obj->update_at);
-            $post->setUser($obj->id_user);
-            
+        try{
+            $req = $this->connect->prepare("SELECT id, title, content, created_at, update_at, id_user FROM post WHERE id = :id");
+            $req->bindParam(":id", $id, PDO::PARAM_INT);
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
+            $post = new Post();
+            while ($obj = $req->fetch()){
+                $post->setId($obj->id);
+                $post->setTitle($obj->title);
+                $post->setContent($obj->content);
+                $post->setCreatedAt($obj->created_at);
+                $post->setUpdateAt($obj->update_at);
+                $post->setUser($obj->id_user);
+                
+            }
+            return $post;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
-        return $post;
+        
     }
 
     public function getCountPost(){
-        $req = $this->connect->prepare("SELECT COUNT(id) FROM post");
-        $req->execute();
-        $nbPost = $req->fetch(); 
-        return $nbPost;
+        try{
+            $req = $this->connect->prepare("SELECT COUNT(id) FROM post");
+            $req->execute();
+            $nbPost = $req->fetch(); 
+            return $nbPost;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
+        }
+        
     }
 
     public function insertPost(){
@@ -72,9 +89,10 @@ class Post{
 
     public function updatePost($id){
         try{
-            $req = $this->connect->prepare("UPDATE post SET title = :title, content = :content, update_at = NOW() WHERE id = " .$id);
+            $req = $this->connect->prepare("UPDATE post SET title = :title, content = :content, update_at = NOW() WHERE id = :id");
             $req->bindParam(":title", $this->title, PDO::PARAM_STR);
             $req->bindParam(":content", $this->content, PDO::PARAM_STR);
+            $req->bindParam(":id", $id, PDO::PARAM_INT);
             $req->execute();
             $message = "Votre billet a bien été mise à jour !";
             return $message;
@@ -85,7 +103,8 @@ class Post{
 
     public function deletePost($id){
         try{
-            $req = $this->connect->prepare("DELETE FROM post WHERE id = ".$id);
+            $req = $this->connect->prepare("DELETE FROM post WHERE id = :id");
+            $req->bindParam(":id", $id, PDO::PARAM_INT);
             $req->execute();
             $message = "Le billet a bien été supprimé !";
             return $message;
@@ -95,20 +114,26 @@ class Post{
     }
 
     public function getLastFivePosts(){
-        $req = $this->connect->query("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc LIMIT 5");
-        $req->setFetchMode(PDO::FETCH_OBJ);
-        $listLastFivePosts = array();
-        while ($obj = $req->fetch()){
-            $post = new Post();
-            $post->setId($obj->id);
-            $post->setTitle($obj->title);
-            $post->setContent($obj->content);
-            $post->setCreatedAt($obj->created_at);
-            $post->setUpdateAt($obj->update_at);
-            $post->setUser($obj->id_user);
-            $listLastFivePosts[] = $post;
+        try{
+            $req = $this->connect->prepare("SELECT id, title, content, created_at, update_at, id_user FROM post ORDER BY created_at desc LIMIT 5");
+            $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
+            $listLastFivePosts = array();
+            while ($obj = $req->fetch()){
+                $post = new Post();
+                $post->setId($obj->id);
+                $post->setTitle($obj->title);
+                $post->setContent($obj->content);
+                $post->setCreatedAt($obj->created_at);
+                $post->setUpdateAt($obj->update_at);
+                $post->setUser($obj->id_user);
+                $listLastFivePosts[] = $post;
+            }
+            return $listLastFivePosts;
+        }catch(PDOException $e){
+            return "Votre requête a échoué, en voici la raison : ".$e->getMessage();
         }
-        return $listLastFivePosts;
+        
     }
 
     //id

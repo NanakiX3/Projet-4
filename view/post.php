@@ -62,7 +62,7 @@
         foreach($listComments as $comment){?>
           <div class="col-12 py-3">
             <blockquote class="blockquote">
-              <p class="mb-0"><?php echo $comment->getContent(); ?></p>
+              <p class="mb-0"><?php echo htmlspecialchars($comment->getContent()); ?></p>
               <footer class="blockquote-footer">
               <?php echo $comment->getUser()->getRole() == "admin" ? $comment->getUser()->getFirstName()." ".$comment->getUser()->getLastName() : $comment->getUser()->getIdentifiant(); ?>
               <cite title="Source Title"><?php echo date("d-m-Y H:i", strtotime($comment->getDateComment())); ?></cite></footer>
