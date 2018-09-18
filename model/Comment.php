@@ -46,6 +46,7 @@ class Comment{
         try{
             $req = $this->connect->prepare("SELECT id, content, dateComment, id_user, id_post FROM comment ORDER BY dateComment desc ");
             $req->setFetchMode(PDO::FETCH_OBJ);
+            $req->execute();
             $listComments = array();
             while ($obj = $req->fetch()){
                 $comment = new Comment();

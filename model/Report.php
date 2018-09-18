@@ -71,6 +71,7 @@ class Report{
             $req = $this->connect->prepare("SELECT message, reporting_date, id_user, id_comment FROM report WHERE id_comment = :id_comment");
             $req->bindParam(":id_comment", $id_comment, PDO::PARAM_INT);
             $req->setFetchMode(PDO::FETCH_OBJ);    
+            $req->execute();
             $listReport = array();
             while ($obj = $req->fetch()){ 
                 $report = new Report();           
