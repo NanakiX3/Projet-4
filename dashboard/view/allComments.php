@@ -11,26 +11,26 @@
                 </div>
             <?php } ?>
 
-            <table class="table table-hover table-bordered table-responsive-sm table-sm bg-light">
+            <table class="table table-hover table-bordered  table-sm bg-light">
                 <thead class="bg-info text-white">
-                    <th>Titre du billet</th>
-                    <th>Auteur</th>
-                    <th>Date de publication</th>
-                    <th>Commentaire</th>
-                    <th>Nb signalement</th>
-                    <th>Actions</th>
+                    <th scope="col">Titre du chapitre</th>
+                    <th scope="col">Auteur</th>
+                    <th scope="col">Date de publication</th>
+                    <th scope="col">Commentaire</th>
+                    <th scope="col">Nb signalement</th>
+                    <th scope="col">Actions</th>
                 </thead>
                 <tbody>
                     <?php
 
                     foreach ($listComments as $comment){ ?>
                         <tr>
-                            <td><?php echo $comment->getPost()->getTitle(); ?></td>
-                            <td><?php echo $comment->getUser()->getIdentifiant(); ?></td>
-                            <td><?php echo date("d/m/Y H:i", strtotime($comment->getDateComment())); ?></td>
-                            <td><?php echo $comment->getContent(); ?></td>
-                            <td><?php echo getCountReportedByComment($comment->getId())[0] ?></td>
-                            <td>
+                            <td scope="row" data-label="Titre du chapitre"><?php echo $comment->getPost()->getTitle(); ?></td>
+                            <td data-label="Auteur"><?php echo $comment->getUser()->getIdentifiant(); ?></td>
+                            <td data-label="Date de publication"><?php echo date("d/m/Y H:i", strtotime($comment->getDateComment())); ?></td>
+                            <td data-label="Commentaire"><?php echo $comment->getContent(); ?></td>
+                            <td data-label="Nb signalement"><?php echo getCountReportedByComment($comment->getId())[0] ?></td>
+                            <td data-label="Actions">
                                 <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $comment->getId();?>" >Supprimer</a>
                             </td>
                         </tr>

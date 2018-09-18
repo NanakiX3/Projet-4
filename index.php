@@ -84,7 +84,7 @@ switch ($action){
     break;
     case 'allPosts':
         $listPosts = getAllPosts();
-        $title = "Blog de Jean Forteroche - Tous les billets";
+        $title = "Blog de Jean Forteroche - Tous les chapitres";
         $vue = "view/allPosts.php";
     break;
     case 'post':

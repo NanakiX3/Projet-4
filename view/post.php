@@ -17,7 +17,7 @@
                       </button>
                   </div>
                   <div class="modal-body">
-                      Confirmez-vous la suppression du billet ?
+                      Confirmez-vous la suppression du chapitre ?
                   </div>
                   <div class="modal-footer">
                       <a class="btn btn-sm btn-success" href="dashboard/index.php?action=deletePost&id=<?php echo $post->getId();?>">Confirmer</a>

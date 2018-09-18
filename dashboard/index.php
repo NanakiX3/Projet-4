@@ -45,7 +45,7 @@ if($userLogin->getRole() == 'lecteur'){
             exit();
         break;
         case 'addPost':
-            $title = "Blog Jean Forteroche - Tableau de bord - Publication d'un billet";
+            $title = "Blog Jean Forteroche - Tableau de bord - Publication d'un chapitre";
             $vue = "view/addPost.php";
         break;
         case 'addPostBdd':
@@ -54,7 +54,7 @@ if($userLogin->getRole() == 'lecteur'){
             }else{
                 $message = "Veuillez renseigner un titre !";
             }
-            $title = "Blog Jean Forteroche - Tableau de bord - Publication d'un billet";
+            $title = "Blog Jean Forteroche - Tableau de bord - Publication d'un chapitre";
             $vue = "view/addPost.php";
         break;
         case 'updatePostBdd':
@@ -65,23 +65,23 @@ if($userLogin->getRole() == 'lecteur'){
                 $message = "Veuillez renseigner un titre !";
             }
             $post = getOnePost($id);
-            $title = "Blog Jean Forteroche - Tableau de bord - Édition d'un billet";
+            $title = "Blog Jean Forteroche - Tableau de bord - Édition d'un chapitre";
             $vue = "view/editPost.php";
         break;
         case 'allPosts':
             $listPosts = getAllPosts();
-            $title = "Blog Jean Forteroche - Tableau de bord - Tous les billets";
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les chapitres";
             $vue = "view/allPosts.php";
         break;
         case 'editPost':
             $post = getOnePost($_GET['id']);
-            $title = "Blog Jean Forteroche - Tableau de bord - Édition d'un billet";
+            $title = "Blog Jean Forteroche - Tableau de bord - Édition d'un chapitre";
             $vue = "view/editPost.php";
         break;
         case 'deletePost':
             $message = deletePost($_GET['id']);
             $listPosts = getAllPosts();
-            $title = "Blog Jean Forteroche - Tableau de bord - Tous les billets";
+            $title = "Blog Jean Forteroche - Tableau de bord - Tous les chapitres";
             $vue = "view/allPosts.php";
         break;
         case 'allComments':

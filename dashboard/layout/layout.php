@@ -29,10 +29,10 @@
 							<a class="nav-link" href="index.php?action=accueil">Accueil</a>
 						</li>
 						<li class="nav-item <?php if($action == "addPost") echo 'item-active'?>">
-							<a class="nav-link" href="index.php?action=addPost">Publier</a>
+							<a class="nav-link" href="index.php?action=addPost">Publier un chapitre</a>
 						</li>
                         <li class="nav-item <?php if($action == "allPosts") echo 'item-active'?>">
-							<a class="nav-link" href="index.php?action=allPosts">Tous les billets</a>
+							<a class="nav-link" href="index.php?action=allPosts">Tous les chapitres</a>
 						</li>
                         <li class="nav-item <?php if($action == "allComments") echo 'item-active'?>">
 							<a class="nav-link" href="index.php?action=allComments">Tous les commentaires</a>

@@ -25,7 +25,7 @@
                     <a class="nav-link" href="index.php">Accueil<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=allPosts">Tous les billets</a>
+                    <a class="nav-link" href="index.php?action=allPosts">Tous les chapitres</a>
                 </li>
                 <?php if(!isset($_SESSION["user"])){?>
                 <li class="nav-item">
