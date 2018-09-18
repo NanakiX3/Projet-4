@@ -27,7 +27,7 @@ function verifLastName(champ){
        if(champ.value.length < 2){
           surligne(champ, true);
           if(parent.children('.invalid-feedback').length > 0){
-            parent.children('.invalid-feedback').html('Veuillez renseigner au moins 2 caractère');
+            parent.children('.invalid-feedback').html('Veuillez renseigner au moins 2 caractères');
           }else{
             parent.append("<div class='invalid-feedback'>Veuillez renseigner au moins 2 caractères</div>");
           }
@@ -65,7 +65,7 @@ function verifFirstName(champ){
        if(champ.value.length < 2){
           surligne(champ, true);
           if(parent.children('.invalid-feedback').length > 0){
-            parent.children('.invalid-feedback').html('Veuillez renseigner au moins 2 caractère');
+            parent.children('.invalid-feedback').html('Veuillez renseigner au moins 2 caractères');
           }else{
             parent.append("<div class='invalid-feedback'>Veuillez renseigner au moins 2 caractères</div>");
           }
@@ -102,7 +102,7 @@ function verifIdentifiant(champ){
        if(champ.value.length < 2){
           surligne(champ, true);
           if(parent.children('.invalid-feedback').length > 0){
-            parent.children('.invalid-feedback').html('Veuillez renseigner au moins 2 caractère');
+            parent.children('.invalid-feedback').html('Veuillez renseigner au moins 2 caractères');
           }else{
             parent.append("<div class='invalid-feedback'>Veuillez renseigner au moins 2 caractères</div>");
           }
@@ -124,15 +124,19 @@ function verifIdentifiant(champ){
 };
 
 function verifPassword(champ){
+    var parent = champ.parent();
     if(champ.value.length<10){
-        surligne(champ, true);
-        $("#password").attr("title", "Votre mot de passe doit faire au minimum 10 caractères");
-        return false;
-        }else{
+        if(parent.children('.invalid-feedback').length > 10){
+            parent.children('.invalid-feedback').html('Veuillez renseigner au moins 10 caractères');
+          }else{
+            parent.append("<div class='invalid-feedback'>Veuillez renseigner au moins 10 caractères</div>");
+          }
+           return false;
+    }else{
         surligne(champ,false);
-        $("#password").attr("title", "");
+        parent.remove('.invalid-feedback');
         return true;
-        }
+    }
 };
 
 //entoure en rouge l'input si erreur sinon vert
