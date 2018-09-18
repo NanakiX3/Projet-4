@@ -37,7 +37,7 @@
                 <?php } ?>
                 <?php if(isset($_SESSION["user"]) && verifLoginById($_SESSION["user"])->getRole() == "admin"){?>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=Dashbord">Tableau de bord</a>
+                    <a class="nav-link" href="index.php?action=dashboard">Tableau de bord</a>
                 </li>
                 <?php } ?>
                 <?php if(isset($_SESSION["user"])){?>

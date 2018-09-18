@@ -18,7 +18,7 @@ class Comment{
     public function addComment(){
         try{
             $req = $this->connect->prepare("INSERT INTO comment (content, dateComment, id_user, id_post) VALUES (:content, NOW(), :user, :post)");
-            $req->bindParam(":content", htmlentities($this->content, ENT_QUOTES), PDO::PARAM_STR);
+            $req->bindParam(":content", $this->content, PDO::PARAM_STR);
             $req->bindParam(":user", $this->user, PDO::PARAM_INT);
             $req->bindParam(":post", $this->post, PDO::PARAM_INT);
             $req->execute();

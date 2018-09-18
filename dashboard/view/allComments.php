@@ -28,7 +28,7 @@
                             <td scope="row" data-label="Titre du chapitre"><?php echo $comment->getPost()->getTitle(); ?></td>
                             <td data-label="Auteur"><?php echo $comment->getUser()->getIdentifiant(); ?></td>
                             <td data-label="Date de publication"><?php echo date("d/m/Y H:i", strtotime($comment->getDateComment())); ?></td>
-                            <td data-label="Commentaire"><?php echo $comment->getContent(); ?></td>
+                            <td data-label="Commentaire"><?php echo htmlspecialchars($comment->getContent()); ?></td>
                             <td data-label="Nb signalement"><?php echo getCountReportedByComment($comment->getId())[0] ?></td>
                             <td data-label="Actions">
                                 <a class="btn btn-sm btn-danger btn-delete" href="" data-toggle="modal" data-target="#modalDelete<?php echo $comment->getId();?>" >Supprimer</a>
